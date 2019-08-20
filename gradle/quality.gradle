@@ -1,0 +1,17 @@
+// KTLint
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
+// Detekt
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    toolVersion = "$detekt_version"
+    config = files("$rootDir/default-detekt-config.yml")
+}
+
+// Jacoco
+apply plugin: "com.vanniktech.android.junit.jacoco"
+
+junitJacoco {
+    jacocoVersion = "$jacoco_version"
+}
