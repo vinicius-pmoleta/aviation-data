@@ -52,7 +52,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
 
     // Android Architecture Components
-    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$androidx_lifecycle_version"
 
     // Dependency Injection
@@ -65,6 +66,7 @@ dependencies {
 
     // Test
     testImplementation "junit:junit:$junit_version"
+    testImplementation "androidx.arch.core:core-testing:$androidx_lifecycle_testing_version"
 
     // Android Test
     androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"

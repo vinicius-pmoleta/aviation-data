@@ -1,6 +1,7 @@
 buildscript {
 
     project.ext {
+        gradle_plugin_version = '3.5.0'
         kotlin_version = '1.3.41'
         detekt_version = '1.0.0-RC16'
         ktlint_version = '8.1.0'
@@ -16,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath "com.android.tools.build:gradle:$gradle_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint_version"
@@ -56,6 +57,7 @@ ext {
 
     // Test
     junit_version = '4.12'
+    androidx_lifecycle_testing_version = '2.1.0-rc01'
 
     // Android Test
     androidx_test_runner_version = '1.2.0'
