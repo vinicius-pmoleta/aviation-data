@@ -18,9 +18,16 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_option, menu)
-        (menu?.findItem(R.id.search_option)?.actionView as SearchView?)?.apply {
+        (menu?.findItem(R.id.search_action)?.actionView as SearchView?)?.apply {
             setIconifiedByDefault(false)
+            setOnQueryTextListener(SearchQueryListener())
         }
         return true
+    }
+
+    private class SearchQueryListener : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean = true
+
+        override fun onQueryTextChange(newText: String?): Boolean = false
     }
 }
