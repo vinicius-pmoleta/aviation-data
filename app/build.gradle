@@ -50,11 +50,13 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
     implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation "com.google.android.material:material:$material_version"
+
 
     // Android Architecture Components
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
 
     // Dependency Injection
     implementation "com.google.dagger:dagger:$dagger_version"
@@ -69,6 +71,11 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$androidx_lifecycle_testing_version"
 
     // Android Test
-    androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso_core_version"
+    androidTestImplementation "androidx.test:runner:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:rules:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:core:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:core-ktx:$androidx_test_core_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_test_junit_version"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidx_test_junit_version"
 }

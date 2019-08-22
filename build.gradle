@@ -47,6 +47,7 @@ ext {
     androidx_core_version = '1.0.2'
     androidx_recyclerview_version = '1.0.0'
     androidx_constraint_layout_version = '1.1.3'
+    material_version = '1.1.0-alpha09'
 
     // Android Architecture Components
     androidx_lifecycle_version = '2.2.0-alpha03'
@@ -60,8 +61,9 @@ ext {
     androidx_lifecycle_testing_version = '2.1.0-rc01'
 
     // Android Test
-    androidx_test_runner_version = '1.2.0'
+    androidx_test_core_version = '1.2.0'
     androidx_test_espresso_core_version = '3.2.0'
+    androidx_test_junit_version = '1.1.1'
 }
 
 apply from: "$rootDir/gradle/quality.gradle"
