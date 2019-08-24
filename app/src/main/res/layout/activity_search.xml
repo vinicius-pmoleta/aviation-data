@@ -8,6 +8,36 @@
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/search_screen" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_input_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_content"
+        android:padding="@dimen/padding_content"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
+        app:helperText="@string/search_hint"
+        app:helperTextEnabled="true"
+        app:layout_constraintTop_toBottomOf="@id/search_toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

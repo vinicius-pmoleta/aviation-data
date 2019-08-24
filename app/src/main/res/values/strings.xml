@@ -1,5 +1,10 @@
 <resources>
+
+    <!-- App -->
     <string name="app_name">Aviation Data</string>
 
-    <string name="search_menu_label">Search</string>
+    <!-- Search -->
+    <string name="search_screen">Search</string>
+    <string name="search_hint">Registration, model, airline, etc</string>
+
 </resources>

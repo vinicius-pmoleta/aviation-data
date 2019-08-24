@@ -1,9 +1,7 @@
 package com.aviationdata.features.search
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import com.aviationdata.R
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -14,20 +12,5 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         setSupportActionBar(search_toolbar)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_option, menu)
-        (menu?.findItem(R.id.search_action)?.actionView as SearchView?)?.apply {
-            setIconifiedByDefault(false)
-            setOnQueryTextListener(SearchQueryListener())
-        }
-        return true
-    }
-
-    private class SearchQueryListener : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean = true
-
-        override fun onQueryTextChange(newText: String?): Boolean = false
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="color_primary">#6f74dd</color>
     <color name="color_primary_variant">#3949ab</color>
     <color name="color_secondary">#ffd95a</color>
@@ -14,4 +15,5 @@
     <color name="color_on_background">#ffffff</color>
     <color name="color_on_surface">#ffffff</color>
     <color name="color_on_error">#000000</color>
+
 </resources>
