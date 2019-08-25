@@ -1,4 +1,4 @@
-package com.aviationdata.features.search
+package com.aviationdata.features.search.data
 
 import com.google.gson.annotations.SerializedName
 

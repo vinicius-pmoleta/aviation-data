@@ -2,13 +2,14 @@ package com.aviationdata.features.search
 
 import com.aviationdata.BuildConfig
 import com.aviationdata.core.Aircraft
+import com.aviationdata.features.search.data.toAircraft
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val DEFAULT_SEARCH_RESULTS_PER_PAGE = 50
+private const val DEFAULT_SEARCH_RESULTS_PER_PAGE = 50
 
 class SearchRemoteRepository {
 
