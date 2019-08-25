@@ -14,6 +14,12 @@ sealed class ViewState<out T> {
 
 }
 
-sealed class UserInteraction
+interface UserInteraction
 
-sealed class StateTransition
+interface InteractionHandler<in T> {
+    fun handle(interaction: UserInteraction)
+}
+
+interface StateHandler<in T> {
+    fun handle(state: ViewState<T>)
+}
