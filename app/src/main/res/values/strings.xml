@@ -4,8 +4,9 @@
     <string name="app_name">Aviation Data</string>
 
     <!-- Search -->
-    <string name="search_screen">Search</string>
-    <string name="search_hint">Registration, model, airline, etc</string>
+    <string name="search_screen_title">Search</string>
+    <string name="search_screen_title_with_query">Search \'%1$s\'</string>
+    <string name="search_input_help">Registration, model, airline, etc</string>
     <string name="search_result_identification">%1$s (%2$s)</string>
     <string name="search_result_operation">Operated in %1$s by %2$s</string>
 

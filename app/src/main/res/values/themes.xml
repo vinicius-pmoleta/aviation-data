@@ -25,6 +25,10 @@
         <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
             ?colorControlHighlight
         </item>
+
+        <!-- widgets -->
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Surface</item>
+        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
     </style>
 
 </resources>

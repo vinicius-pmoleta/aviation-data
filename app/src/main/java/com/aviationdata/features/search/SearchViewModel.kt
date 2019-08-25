@@ -27,9 +27,7 @@ class SearchViewModel : ViewModel() {
                 val results = model.search(query)
                     .map { it.toResult(context) }
 
-                _stateLiveData.value = SearchState(results)
-
-                Log.d(TAG, results.toString())
+                _stateLiveData.value = SearchState(query, results)
             } catch (error: Exception) {
                 Log.e(TAG, "Error", error)
             }

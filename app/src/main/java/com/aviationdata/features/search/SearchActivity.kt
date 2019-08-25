@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aviationdata.R
+import com.aviationdata.core.dismissKeyboard
 import com.aviationdata.features.search.data.SearchState
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -30,10 +31,7 @@ class SearchActivity : AppCompatActivity() {
     private fun configureInput() {
         search_input.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
-                EditorInfo.IME_ACTION_SEARCH -> viewModel.search(
-                    this@SearchActivity,
-                    search_input.text.toString()
-                )
+                EditorInfo.IME_ACTION_SEARCH -> submitSearch()
                 else -> {
                 }
             }
@@ -49,7 +47,27 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun submitSearch() {
+        val query = search_input.text.toString()
+
+        dismissKeyboard(this)
+        search_input.clearFocus()
+        search_input_container.setExpanded(false, true)
+        setToolbarTitle(query)
+
+        viewModel.search(this@SearchActivity, query)
+    }
+
     private fun handleStateChange(state: SearchState) {
+        setToolbarTitle(state.query)
         (search_results.adapter as SearchAdapter).updateResults(state.results)
+    }
+
+    private fun setToolbarTitle(query: String) {
+        var title = getString(R.string.search_screen_title)
+        if (query.isNotBlank()) {
+            title = getString(R.string.search_screen_title_with_query, query)
+        }
+        search_toolbar.title = title
     }
 }
