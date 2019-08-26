@@ -1,7 +1,7 @@
 package com.aviationdata.features.search
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -15,6 +15,7 @@ import com.aviationdata.core.ViewState.*
 import com.aviationdata.core.dismissKeyboard
 import com.aviationdata.features.search.data.SearchInteraction
 import com.aviationdata.features.search.data.SearchState
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
 
 private const val TAG = "SearchActivity"
@@ -72,7 +73,8 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
     }
 
     private fun prepareExecution() {
-        // TODO show loading
+        search_loading.visibility = View.VISIBLE
+        search_results.visibility = View.GONE
 
         search_toolbar.title = getString(R.string.search_screen_title_loading)
         dismissKeyboard(this)
@@ -81,16 +83,18 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
     }
 
     private fun handlePresentation(value: SearchState) {
-        // TODO show value
-
         search_toolbar.title = getString(R.string.search_screen_title_with_query, value.query)
+        search_loading.visibility = View.GONE
+        search_results.visibility = View.VISIBLE
         (search_results.adapter as SearchAdapter).updateResults(value.results)
     }
 
     private fun handleError(reason: Throwable) {
-        Log.e(TAG, "Error performing search", reason)
-        // TODO show error
+        Snackbar.make(search_coordinator, R.string.search_error, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.default_retry_action) { submitSearch() }
+            .show()
 
+        search_loading.visibility = View.GONE
         search_toolbar.title = getString(R.string.search_screen_title)
         search_input_container.setExpanded(true, true)
         search_input.requestFocus()

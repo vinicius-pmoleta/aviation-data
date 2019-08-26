@@ -13,6 +13,7 @@
         app:title="@string/search_screen_title" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/search_coordinator"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,6 +59,15 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_search_result" />
+
+        <include
+            android:id="@+id/search_loading"
+            layout="@layout/default_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
