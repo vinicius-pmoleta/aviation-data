@@ -18,8 +18,6 @@ import com.aviationdata.features.search.data.SearchState
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
 
-private const val TAG = "SearchActivity"
-
 class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
 
     private lateinit var viewModelHandler: ViewModelHandler<SearchState>

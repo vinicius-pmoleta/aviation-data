@@ -2,9 +2,12 @@ package com.aviationdata.features.search
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.*
-import com.aviationdata.core.ViewModelHandler
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.aviationdata.core.UserInteraction
+import com.aviationdata.core.ViewModelHandler
 import com.aviationdata.core.ViewState
 import com.aviationdata.features.search.data.SearchInteraction
 import com.aviationdata.features.search.data.SearchState
