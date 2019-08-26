@@ -1,5 +1,7 @@
 package com.aviationdata.core
 
+import androidx.lifecycle.LiveData
+
 sealed class ViewState<out T> {
 
     object FirstLaunch : ViewState<Nothing>()
@@ -16,10 +18,11 @@ sealed class ViewState<out T> {
 
 interface UserInteraction
 
-interface InteractionHandler<in T> {
+interface ViewModelHandler<T> {
     fun handle(interaction: UserInteraction)
+    fun state(): LiveData<ViewState<T>>
 }
 
-interface StateHandler<in T> {
+interface ViewHandler<in T> {
     fun handle(state: ViewState<T>)
 }

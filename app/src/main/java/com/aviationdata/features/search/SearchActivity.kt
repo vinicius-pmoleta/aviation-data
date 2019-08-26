@@ -8,7 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aviationdata.R
-import com.aviationdata.core.StateHandler
+import com.aviationdata.core.ViewHandler
+import com.aviationdata.core.ViewModelHandler
 import com.aviationdata.core.ViewState
 import com.aviationdata.core.ViewState.*
 import com.aviationdata.core.dismissKeyboard
@@ -18,21 +19,20 @@ import kotlinx.android.synthetic.main.activity_search.*
 
 private const val TAG = "SearchActivity"
 
-class SearchActivity : AppCompatActivity(), StateHandler<SearchState> {
+class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
 
-    private lateinit var viewModel: SearchViewModel
+    private lateinit var viewModelHandler: ViewModelHandler<SearchState>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        viewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-        viewModel.stateLiveData.observe(this, Observer { handle(it) })
-
         setSupportActionBar(search_toolbar)
-
         configureInput()
         configureResults()
+
+        viewModelHandler = ViewModelProvider(this).get(SearchViewModel::class.java)
+        viewModelHandler.state().observe(this, Observer { handle(it) })
     }
 
     private fun configureInput() {
@@ -54,7 +54,7 @@ class SearchActivity : AppCompatActivity(), StateHandler<SearchState> {
 
     private fun submitSearch() {
         val query = search_input.text.toString()
-        viewModel.handle(SearchInteraction(this@SearchActivity, query))
+        viewModelHandler.handle(SearchInteraction(this@SearchActivity, query))
     }
 
     override fun handle(state: ViewState<SearchState>) {

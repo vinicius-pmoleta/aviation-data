@@ -2,11 +2,8 @@ package com.aviationdata.features.search
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.aviationdata.core.InteractionHandler
+import androidx.lifecycle.*
+import com.aviationdata.core.ViewModelHandler
 import com.aviationdata.core.UserInteraction
 import com.aviationdata.core.ViewState
 import com.aviationdata.features.search.data.SearchInteraction
@@ -16,7 +13,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "SearchViewModel"
 
-class SearchViewModel : ViewModel(), InteractionHandler<SearchState> {
+class SearchViewModel : ViewModel(), ViewModelHandler<SearchState> {
 
     private val model = SearchModel(SearchRemoteRepository())
 
@@ -32,6 +29,10 @@ class SearchViewModel : ViewModel(), InteractionHandler<SearchState> {
         when (interaction) {
             is SearchInteraction -> with(interaction) { runSearch(context, query) }
         }
+    }
+
+    override fun state(): LiveData<ViewState<SearchState>> {
+        return stateLiveData
     }
 
     private fun runSearch(context: Context, query: String) {
