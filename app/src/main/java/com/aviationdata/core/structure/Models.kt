@@ -1,4 +1,4 @@
-package com.aviationdata.core
+package com.aviationdata.core.structure
 
 data class Identification(
     val icao24: String = "",

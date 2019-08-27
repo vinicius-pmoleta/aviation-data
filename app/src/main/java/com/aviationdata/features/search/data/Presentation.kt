@@ -1,7 +1,7 @@
 package com.aviationdata.features.search.data
 
 import android.content.Context
-import com.aviationdata.core.UserInteraction
+import com.aviationdata.core.structure.UserInteraction
 
 data class SearchResult(
     val identification: String = "",

@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aviationdata.core.UserInteraction
-import com.aviationdata.core.ViewModelHandler
-import com.aviationdata.core.ViewState
+import com.aviationdata.core.structure.UserInteraction
+import com.aviationdata.core.structure.ViewModelHandler
+import com.aviationdata.core.structure.ViewState
 import com.aviationdata.features.search.data.SearchInteraction
 import com.aviationdata.features.search.data.SearchState
 import com.aviationdata.features.search.data.toResult
@@ -16,12 +16,12 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "SearchViewModel"
 
-class SearchViewModel : ViewModel(), ViewModelHandler<SearchState> {
-
-    private val model = SearchModel(SearchRemoteRepository())
+class SearchViewModel(
+    private val business: SearchBusiness
+) : ViewModel(), ViewModelHandler<SearchState> {
 
     private val _stateLiveData = MutableLiveData<ViewState<SearchState>>()
-    val stateLiveData: LiveData<ViewState<SearchState>>
+    private val stateLiveData: LiveData<ViewState<SearchState>>
         get() = _stateLiveData
 
     init {
@@ -43,7 +43,7 @@ class SearchViewModel : ViewModel(), ViewModelHandler<SearchState> {
             try {
                 emit(ViewState.Loading.FromEmpty)
 
-                val results = model.search(query)
+                val results = business.search(query)
                     .map { it.toResult(context) }
 
                 emit(ViewState.Success(SearchState(query, results)))

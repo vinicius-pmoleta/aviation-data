@@ -2,10 +2,10 @@ package com.aviationdata.features.search.data
 
 import android.content.Context
 import com.aviationdata.R
-import com.aviationdata.core.Aircraft
-import com.aviationdata.core.Identification
-import com.aviationdata.core.Information
-import com.aviationdata.core.Operation
+import com.aviationdata.core.structure.Aircraft
+import com.aviationdata.core.structure.Identification
+import com.aviationdata.core.structure.Information
+import com.aviationdata.core.structure.Operation
 
 fun RawSearchResult.toAircraft() = Aircraft(
     identification = Identification(
