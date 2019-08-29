@@ -1,7 +1,6 @@
 package com.aviationdata.features.search
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -48,7 +47,6 @@ class SearchViewModel(
 
                 emit(ViewState.Success(SearchState(query, results)))
             } catch (error: Exception) {
-                Log.e(TAG, "Error", error)
                 emit(ViewState.Failed(error))
             }
         }
