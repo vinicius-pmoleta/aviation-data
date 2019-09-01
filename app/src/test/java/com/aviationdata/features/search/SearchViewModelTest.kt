@@ -1,6 +1,5 @@
 package com.aviationdata.features.search
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.aviationdata.core.structure.Aircraft
@@ -28,13 +27,14 @@ class SearchViewModelTest {
     val coroutinesRule = CoroutinesTestRule()
 
     private val business: SearchBusiness = mock()
+    private val mapper: SearchMapper = mock()
     private val observer: Observer<ViewState<SearchState>> = mock()
 
     private lateinit var viewModelHandler: ViewModelHandler<SearchState>
 
     @Before
     fun setUp() {
-        viewModelHandler = SearchViewModel(business)
+        viewModelHandler = SearchViewModel(business, mapper, coroutinesRule.dispatchers)
         viewModelHandler.state().observeForever(observer)
     }
 
@@ -43,15 +43,37 @@ class SearchViewModelTest {
         verify(observer).onChanged(ViewState.FirstLaunch)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
-    fun `verify search triggered when search interaction is handled`() = runBlockingTest {
-        val context = mock<Context>()
+    fun `verify search succeeds when search interaction is handled`() = runBlockingTest {
         val query = "query"
+
         val aircraft = Aircraft()
         whenever(business.search(query)).thenReturn(listOf(aircraft))
 
-        viewModelHandler.handle(SearchInteraction(context, query))
+        val result = SearchResult()
+        whenever(mapper.toPresentation(aircraft)).thenReturn(result)
+
+        viewModelHandler.handle(SearchInteraction(query))
+
+        verify(business).search(query)
+        verify(mapper).toPresentation(aircraft)
+
+        argumentCaptor<ViewState<SearchState>> {
+            verify(observer, times(3)).onChanged(capture())
+            assertEquals(ViewState.FirstLaunch, firstValue)
+            assertEquals(ViewState.Loading.FromEmpty, secondValue)
+            assertEquals(ViewState.Success(SearchState(query, listOf(result))), thirdValue)
+        }
+    }
+
+    @Test
+    fun `verify search fails when search interaction is handled`() = runBlockingTest {
+        val query = "query"
+
+        val reason = RuntimeException()
+        whenever(business.search(query)).thenThrow(reason)
+
+        viewModelHandler.handle(SearchInteraction(query))
 
         verify(business).search(query)
 
@@ -59,10 +81,7 @@ class SearchViewModelTest {
             verify(observer, times(3)).onChanged(capture())
             assertEquals(ViewState.FirstLaunch, firstValue)
             assertEquals(ViewState.Loading.FromEmpty, secondValue)
-            assertEquals(
-                ViewState.Success(SearchState(query, listOf(SearchResult()))),
-                thirdValue
-            )
+            assertEquals(ViewState.Failed(reason), thirdValue)
         }
     }
 }

@@ -1,22 +1,22 @@
 package com.aviationdata.features.search
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aviationdata.core.structure.AppDispatchers
 import com.aviationdata.core.structure.UserInteraction
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
 import com.aviationdata.features.search.data.SearchInteraction
 import com.aviationdata.features.search.data.SearchState
-import com.aviationdata.features.search.data.toResult
 import kotlinx.coroutines.launch
-
-private const val TAG = "SearchViewModel"
+import kotlinx.coroutines.withContext
 
 class SearchViewModel(
-    private val business: SearchBusiness
+    private val business: SearchBusiness,
+    private val mapper: SearchMapper,
+    private val dispatchers: AppDispatchers
 ) : ViewModel(), ViewModelHandler<SearchState> {
 
     private val _stateLiveData = MutableLiveData<ViewState<SearchState>>()
@@ -29,7 +29,7 @@ class SearchViewModel(
 
     override fun handle(interaction: UserInteraction) {
         when (interaction) {
-            is SearchInteraction -> with(interaction) { runSearch(context, query) }
+            is SearchInteraction -> with(interaction) { runSearch(query) }
         }
     }
 
@@ -37,16 +37,19 @@ class SearchViewModel(
         return stateLiveData
     }
 
-    private fun runSearch(context: Context, query: String) {
+    private fun runSearch(query: String) {
         viewModelScope.launch {
             try {
                 emit(ViewState.Loading.FromEmpty)
 
-                val results = business.search(query)
-                    .map { it.toResult(context) }
+                val results = withContext(dispatchers.io) {
+                    business.search(query)
+                }.map {
+                    mapper.toPresentation(it)
+                }
 
                 emit(ViewState.Success(SearchState(query, results)))
-            } catch (error: Exception) {
+            } catch (error: Throwable) {
                 emit(ViewState.Failed(error))
             }
         }

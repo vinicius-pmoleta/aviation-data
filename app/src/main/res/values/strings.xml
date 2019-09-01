@@ -6,6 +6,7 @@
     <!-- Default -->
     <string name="default_loading_label">Loading…</string>
     <string name="default_retry_action">Retry</string>
+    <string name="default_no_value_placeholder">-</string>
 
     <!-- Search -->
     <string name="search_screen_title">Search</string>

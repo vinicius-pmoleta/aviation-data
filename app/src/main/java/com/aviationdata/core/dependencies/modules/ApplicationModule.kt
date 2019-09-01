@@ -2,6 +2,7 @@ package com.aviationdata.core.dependencies.modules
 
 import android.content.Context
 import com.aviationdata.core.AviationDataApplication
+import com.aviationdata.core.structure.AppDispatchers
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,5 +20,11 @@ class ApplicationModule(private val application: AviationDataApplication) {
     @Singleton
     fun providesContext(): Context {
         return application.applicationContext
+    }
+
+    @Provides
+    @Singleton
+    fun provideDispatchers(): AppDispatchers {
+        return AppDispatchers()
     }
 }

@@ -1,5 +1,9 @@
 package com.aviationdata.features.search.data
 
+import com.aviationdata.core.structure.Aircraft
+import com.aviationdata.core.structure.Identification
+import com.aviationdata.core.structure.Information
+import com.aviationdata.core.structure.Operation
 import com.google.gson.annotations.SerializedName
 
 data class RawSearchResponse(
@@ -15,4 +19,18 @@ data class RawSearchResult(
     val model: String = "",
     val operator: String = "",
     val country: String = ""
+)
+
+fun RawSearchResult.toAircraft() = Aircraft(
+    identification = Identification(
+        icao24 = icao24,
+        registration = registration
+    ),
+    operation = Operation(
+        operator = operator,
+        country = country
+    ),
+    information = Information(
+        model = model
+    )
 )

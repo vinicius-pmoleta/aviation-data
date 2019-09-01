@@ -1,6 +1,5 @@
 package com.aviationdata.features.search.data
 
-import android.content.Context
 import com.aviationdata.core.structure.UserInteraction
 
 data class SearchResult(
@@ -14,7 +13,4 @@ data class SearchState(
     val results: List<SearchResult> = mutableListOf()
 )
 
-data class SearchInteraction(
-    val context: Context,
-    val query: String
-) : UserInteraction
+data class SearchInteraction(val query: String) : UserInteraction

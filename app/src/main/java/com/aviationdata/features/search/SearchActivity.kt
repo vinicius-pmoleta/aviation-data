@@ -64,7 +64,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
 
     private fun submitSearch() {
         val query = search_input.text.toString()
-        viewModelHandler.handle(SearchInteraction(this@SearchActivity, query))
+        viewModelHandler.handle(SearchInteraction(query))
     }
 
     override fun handle(state: ViewState<SearchState>) {

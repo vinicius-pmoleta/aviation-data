@@ -1,9 +1,10 @@
 package com.aviationdata.features.search
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.aviationdata.core.dependencies.ApplicationComponent
+import com.aviationdata.core.structure.AppDispatchers
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.features.search.data.SearchState
 import dagger.Component
@@ -27,18 +28,28 @@ interface SearchComponent {
 }
 
 @Module
-class SearchModule(private val owner: ViewModelStoreOwner) {
+class SearchModule(private val activity: AppCompatActivity) {
 
     @Provides
     @SearchScope
-    fun provideViewModelFactory(business: SearchBusiness): SearchViewModelFactory {
-        return SearchViewModelFactory(business)
+    fun provideViewModelFactory(
+        business: SearchBusiness,
+        mapper: SearchMapper,
+        dispatchers: AppDispatchers
+    ): SearchViewModelFactory {
+        return SearchViewModelFactory(business, mapper, dispatchers)
+    }
+
+    @Provides
+    @SearchScope
+    fun provideMapper(): SearchMapper {
+        return SearchMapper(activity)
     }
 
     @Provides
     @SearchScope
     fun provideViewModelHandler(factory: SearchViewModelFactory): ViewModelHandler<SearchState> {
-        return ViewModelProvider(owner, factory).get(SearchViewModel::class.java)
+        return ViewModelProvider(activity, factory).get(SearchViewModel::class.java)
     }
 
     @Provides
@@ -60,12 +71,14 @@ class SearchModule(private val owner: ViewModelStoreOwner) {
     }
 
     class SearchViewModelFactory(
-        private val business: SearchBusiness
+        private val business: SearchBusiness,
+        private val mapper: SearchMapper,
+        private val dispatchers: AppDispatchers
     ) : ViewModelProvider.Factory {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SearchViewModel(business) as T
+            return SearchViewModel(business, mapper, dispatchers) as T
         }
     }
 }

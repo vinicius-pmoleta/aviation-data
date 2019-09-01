@@ -1,5 +1,6 @@
 package com.aviationdata.rules
 
+import com.aviationdata.core.structure.AppDispatchers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -12,6 +13,12 @@ import org.junit.runner.Description
 class CoroutinesTestRule(
     private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 ) : TestWatcher() {
+
+    val dispatchers = AppDispatchers(
+        io = testDispatcher,
+        main = testDispatcher,
+        default = testDispatcher
+    )
 
     override fun starting(description: Description?) {
         super.starting(description)
