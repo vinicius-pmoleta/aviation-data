@@ -1,4 +1,4 @@
-package com.aviationdata.features.search
+package com.aviationdata.features.search.view
 
 import android.os.Bundle
 import android.view.View
@@ -13,8 +13,8 @@ import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
 import com.aviationdata.core.structure.ViewState.*
 import com.aviationdata.core.utility.dismissKeyboard
-import com.aviationdata.features.search.data.SearchInteraction
-import com.aviationdata.features.search.data.SearchState
+import com.aviationdata.features.search.DaggerSearchComponent
+import com.aviationdata.features.search.SearchModule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject

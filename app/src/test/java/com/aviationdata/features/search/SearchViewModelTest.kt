@@ -5,9 +5,12 @@ import androidx.lifecycle.Observer
 import com.aviationdata.core.structure.Aircraft
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
-import com.aviationdata.features.search.data.SearchInteraction
-import com.aviationdata.features.search.data.SearchResult
-import com.aviationdata.features.search.data.SearchState
+import com.aviationdata.features.search.business.SearchBusiness
+import com.aviationdata.features.search.view.SearchInteraction
+import com.aviationdata.features.search.viewmodel.SearchMapper
+import com.aviationdata.features.search.view.SearchResult
+import com.aviationdata.features.search.view.SearchState
+import com.aviationdata.features.search.viewmodel.SearchViewModel
 import com.aviationdata.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -34,7 +37,11 @@ class SearchViewModelTest {
 
     @Before
     fun setUp() {
-        viewModelHandler = SearchViewModel(business, mapper, coroutinesRule.dispatchers)
+        viewModelHandler = SearchViewModel(
+            business,
+            mapper,
+            coroutinesRule.dispatchers
+        )
         viewModelHandler.state().observeForever(observer)
     }
 
@@ -62,7 +69,12 @@ class SearchViewModelTest {
             verify(observer, times(3)).onChanged(capture())
             assertEquals(ViewState.FirstLaunch, firstValue)
             assertEquals(ViewState.Loading.FromEmpty, secondValue)
-            assertEquals(ViewState.Success(SearchState(query, listOf(result))), thirdValue)
+            assertEquals(ViewState.Success(
+                SearchState(
+                    query,
+                    listOf(result)
+                )
+            ), thirdValue)
         }
     }
 

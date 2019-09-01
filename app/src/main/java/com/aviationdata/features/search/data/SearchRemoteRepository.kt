@@ -1,7 +1,6 @@
-package com.aviationdata.features.search
+package com.aviationdata.features.search.data
 
 import com.aviationdata.core.structure.Aircraft
-import com.aviationdata.features.search.data.toAircraft
 
 internal const val DEFAULT_SEARCH_RESULTS_PER_PAGE = 50
 internal const val DEFAULT_SEARCH_SORT_BY_FIELD = ""

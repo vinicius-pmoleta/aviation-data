@@ -6,7 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.aviationdata.core.dependencies.ApplicationComponent
 import com.aviationdata.core.structure.AppDispatchers
 import com.aviationdata.core.structure.ViewModelHandler
-import com.aviationdata.features.search.data.SearchState
+import com.aviationdata.features.search.business.SearchBusiness
+import com.aviationdata.features.search.data.SearchRemoteRepository
+import com.aviationdata.features.search.data.SearchService
+import com.aviationdata.features.search.view.SearchState
+import com.aviationdata.features.search.view.SearchActivity
+import com.aviationdata.features.search.viewmodel.SearchMapper
+import com.aviationdata.features.search.viewmodel.SearchViewModel
 import dagger.Component
 import dagger.Module
 import dagger.Provides
@@ -78,7 +84,11 @@ class SearchModule(private val activity: AppCompatActivity) {
 
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SearchViewModel(business, mapper, dispatchers) as T
+            return SearchViewModel(
+                business,
+                mapper,
+                dispatchers
+            ) as T
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.aviationdata.features.search
 
 import com.aviationdata.core.structure.Aircraft
-import com.aviationdata.features.search.data.RawSearchResponse
-import com.aviationdata.features.search.data.RawSearchResult
+import com.aviationdata.features.search.data.*
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi

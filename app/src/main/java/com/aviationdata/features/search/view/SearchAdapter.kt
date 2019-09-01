@@ -1,11 +1,10 @@
-package com.aviationdata.features.search
+package com.aviationdata.features.search.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aviationdata.R
-import com.aviationdata.features.search.data.SearchResult
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_search_result.*
 

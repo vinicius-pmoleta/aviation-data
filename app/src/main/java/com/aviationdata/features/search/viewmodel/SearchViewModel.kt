@@ -1,4 +1,4 @@
-package com.aviationdata.features.search
+package com.aviationdata.features.search.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,9 @@ import com.aviationdata.core.structure.AppDispatchers
 import com.aviationdata.core.structure.UserInteraction
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
-import com.aviationdata.features.search.data.SearchInteraction
-import com.aviationdata.features.search.data.SearchState
+import com.aviationdata.features.search.business.SearchBusiness
+import com.aviationdata.features.search.view.SearchInteraction
+import com.aviationdata.features.search.view.SearchState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -48,7 +49,12 @@ class SearchViewModel(
                     mapper.toPresentation(it)
                 }
 
-                emit(ViewState.Success(SearchState(query, results)))
+                emit(ViewState.Success(
+                    SearchState(
+                        query,
+                        results
+                    )
+                ))
             } catch (error: Throwable) {
                 emit(ViewState.Failed(error))
             }

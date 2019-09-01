@@ -1,4 +1,4 @@
-package com.aviationdata.features.search.data
+package com.aviationdata.features.search.view
 
 import com.aviationdata.core.structure.UserInteraction
 

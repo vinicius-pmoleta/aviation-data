@@ -1,6 +1,7 @@
-package com.aviationdata.features.search
+package com.aviationdata.features.search.business
 
 import com.aviationdata.core.structure.Aircraft
+import com.aviationdata.features.search.data.SearchRemoteRepository
 
 class SearchBusiness(private val remoteRepository: SearchRemoteRepository) {
 
