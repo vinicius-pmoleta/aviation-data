@@ -3,13 +3,21 @@ package com.aviationdata.features.search
 import com.aviationdata.core.structure.Aircraft
 import com.aviationdata.features.search.data.toAircraft
 
-private const val DEFAULT_SEARCH_RESULTS_PER_PAGE = 50
+internal const val DEFAULT_SEARCH_RESULTS_PER_PAGE = 50
+internal const val DEFAULT_SEARCH_SORT_BY_FIELD = ""
+internal const val DEFAULT_SEARCH_SORT_ORDER_FIELD = ""
 
 class SearchRemoteRepository(private val service: SearchService) {
 
     suspend fun search(query: String, page: Int): List<Aircraft> {
         return service
-            .search(query, page, DEFAULT_SEARCH_RESULTS_PER_PAGE, "", "")
+            .search(
+                query,
+                page,
+                DEFAULT_SEARCH_RESULTS_PER_PAGE,
+                DEFAULT_SEARCH_SORT_BY_FIELD,
+                DEFAULT_SEARCH_SORT_ORDER_FIELD
+            )
             .results
             .map { it.toAircraft() }
     }
