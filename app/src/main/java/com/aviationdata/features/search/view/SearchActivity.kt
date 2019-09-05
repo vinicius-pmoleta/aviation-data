@@ -7,42 +7,40 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aviationdata.R
-import com.aviationdata.core.AviationDataApplication
+import com.aviationdata.core.dependencies.selfBind
 import com.aviationdata.core.structure.ViewHandler
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
 import com.aviationdata.core.structure.ViewState.*
 import com.aviationdata.core.utility.dismissKeyboard
-import com.aviationdata.features.search.DaggerSearchComponent
-import com.aviationdata.features.search.SearchModule
+import com.aviationdata.features.search.searchModule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
-import javax.inject.Inject
+import org.kodein.di.KodeinAware
+import org.kodein.di.KodeinContext
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.kcontext
+import org.kodein.di.generic.on
 
-class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
+class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAware {
 
-    @Inject
-    lateinit var viewModelHandler: ViewModelHandler<SearchState>
+    override val kodeinContext: KodeinContext<SearchActivity> = kcontext(this)
+
+    override val kodein by selfBind {
+        import(searchModule)
+    }
+
+    private val viewModelHandler: ViewModelHandler<SearchState> by kodein.on(kodeinContext).instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setSupportActionBar(search_toolbar)
 
-        initializeDependencies()
-
         configureInput()
         configureResults()
 
         viewModelHandler.state().observe(this, Observer { handle(it) })
-    }
-
-    private fun initializeDependencies() {
-        DaggerSearchComponent.builder()
-            .applicationComponent((application as AviationDataApplication).applicationComponent)
-            .searchModule(SearchModule(this))
-            .build()
-            .inject(this)
     }
 
     private fun configureInput() {

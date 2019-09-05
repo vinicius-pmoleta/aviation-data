@@ -1,25 +1,12 @@
 package com.aviationdata.core
 
 import android.app.Application
-import com.aviationdata.core.dependencies.ApplicationComponent
-import com.aviationdata.core.dependencies.DaggerApplicationComponent
-import com.aviationdata.core.dependencies.modules.ApplicationModule
-import com.aviationdata.core.dependencies.modules.NetworkModule
+import com.aviationdata.core.dependencies.DependenciesSetup
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
 
-class AviationDataApplication : Application() {
+class AviationDataApplication : Application(), KodeinAware {
 
-    lateinit var applicationComponent: ApplicationComponent
+    override val kodein: Kodein = DependenciesSetup(this).container
 
-    override fun onCreate() {
-        super.onCreate()
-
-        initializeDependencyInjection()
-    }
-
-    private fun initializeDependencyInjection() {
-        applicationComponent = DaggerApplicationComponent.builder()
-            .applicationModule(ApplicationModule(this))
-            .networkModule(NetworkModule())
-            .build()
-    }
 }

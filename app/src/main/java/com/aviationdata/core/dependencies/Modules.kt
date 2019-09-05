@@ -1,36 +1,40 @@
-package com.aviationdata.core.dependencies.modules
+package com.aviationdata.core.dependencies
 
 import com.aviationdata.BuildConfig
-import dagger.Module
-import dagger.Provides
+import com.aviationdata.core.structure.AppDispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
-@Module
-class NetworkModule {
+val applicationModule = Kodein.Module("application") {
 
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    bind() from provider {
+        AppDispatchers()
+    }
+}
+
+val networkModule = Kodein.Module("network") {
+
+    bind() from provider {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = if (BuildConfig.DEBUG) Level.BODY else Level.NONE
 
-        return OkHttpClient.Builder()
+        OkHttpClient.Builder()
             .addInterceptor(interceptor)
             .build()
     }
 
-    @Provides
-    @Singleton
-    fun provideOpenSkyRetrofit(client: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    bind() from provider {
+        Retrofit.Builder()
             .baseUrl("https://opensky-network.org/")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
+            .client(instance())
             .build()
     }
 }
