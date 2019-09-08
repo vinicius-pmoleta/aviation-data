@@ -10,6 +10,7 @@ executors:
 
 jobs:
   build:
+    executor: default_executor
     steps:
       - checkout
       - restore_cache:
@@ -29,6 +30,7 @@ jobs:
           destination: apk
 
   check:
+    executor: default_executor
     steps:
       - run:
           name: Check code style
@@ -38,6 +40,7 @@ jobs:
           command: ./gradlew clean detekt --no-daemon
 
   test:
+    executor: default_executor
     steps:
       - run:
           name: Generate all unit test reports
