@@ -15,8 +15,8 @@ class SearchMapper(private val context: Context) {
             SearchResult(
                 identification = context.getString(
                     R.string.search_result_identification,
-                    identification.registration,
-                    identification.icao24
+                    identification.registration.ifEmpty { noValuePlaceHolder },
+                    identification.icao24.ifEmpty { noValuePlaceHolder }
                 ),
                 operation = context.getString(
                     R.string.search_result_operation,
