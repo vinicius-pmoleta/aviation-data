@@ -8,20 +8,20 @@ import okhttp3.logging.HttpLoggingInterceptor.Level
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val applicationModule = Kodein.Module("application") {
 
-    bind() from provider {
+    bind() from singleton {
         AppDispatchers()
     }
 }
 
 val networkModule = Kodein.Module("network") {
 
-    bind() from provider {
+    bind() from singleton {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = if (BuildConfig.DEBUG) Level.BODY else Level.NONE
 
@@ -30,7 +30,7 @@ val networkModule = Kodein.Module("network") {
             .build()
     }
 
-    bind() from provider {
+    bind() from singleton {
         Retrofit.Builder()
             .baseUrl("https://opensky-network.org/")
             .addConverterFactory(GsonConverterFactory.create())

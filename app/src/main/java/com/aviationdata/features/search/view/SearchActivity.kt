@@ -13,7 +13,6 @@ import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
 import com.aviationdata.core.structure.ViewState.*
 import com.aviationdata.core.utility.dismissKeyboard
-import com.aviationdata.features.search.searchModule
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
 import org.kodein.di.KodeinAware
@@ -26,9 +25,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
 
     override val kodeinContext: KodeinContext<SearchActivity> = kcontext(this)
 
-    override val kodein by selfBind {
-        import(searchModule)
-    }
+    override val kodein by selfBind()
 
     private val viewModelHandler: ViewModelHandler<SearchState> by kodein.on(kodeinContext).instance()
 

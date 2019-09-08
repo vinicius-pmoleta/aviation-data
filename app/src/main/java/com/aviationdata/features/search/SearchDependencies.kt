@@ -62,5 +62,3 @@ val searchModule = Kodein.Module("search") {
         ViewModelProvider(owner, factory).get(SearchViewModel::class.java)
     }
 }
-
-

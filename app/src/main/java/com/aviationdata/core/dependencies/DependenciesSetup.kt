@@ -3,6 +3,7 @@ package com.aviationdata.core.dependencies
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import com.aviationdata.features.search.searchModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.conf.ConfigurableKodein
@@ -22,7 +23,7 @@ fun AppCompatActivity.selfBind(bindings: Kodein.MainBuilder.() -> Unit = {}) = K
         this@selfBind
     }
 
-    bindings.invoke(this)
+    bindings(this)
 }
 
 class DependenciesSetup(private val application: Application) {
@@ -38,6 +39,7 @@ class DependenciesSetup(private val application: Application) {
 
     private val modules = listOf(
         applicationModule,
-        networkModule
+        networkModule,
+        searchModule
     )
 }

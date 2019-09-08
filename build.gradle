@@ -43,14 +43,14 @@ ext {
     build_tools_version = "29.0.0"
 
     // Android UI
-    androidx_appcompat_version = '1.0.2'
-    androidx_core_version = '1.0.2'
+    androidx_appcompat_version = '1.1.0'
+    androidx_core_version = '1.1.0'
     androidx_recyclerview_version = '1.0.0'
     androidx_constraint_layout_version = '1.1.3'
-    material_version = '1.1.0-alpha09'
+    material_version = '1.1.0-alpha10'
 
     // Android Architecture Components
-    androidx_lifecycle_version = '2.2.0-alpha03'
+    androidx_lifecycle_version = '2.2.0-alpha04'
 
     // Coroutine
     coroutines_version = '1.3.0'
@@ -62,6 +62,7 @@ ext {
 
     // Test
     junit_version = '4.12'
+    mockito_version = '3.0.0'
     mockito_kotlin_version = '2.1.0'
     androidx_lifecycle_testing_version = '2.1.0-rc01'
 

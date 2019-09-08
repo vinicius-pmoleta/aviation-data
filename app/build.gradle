@@ -78,6 +78,8 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-debug:$coroutines_version"
 
     // Android Test
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso_core_version"
     androidTestImplementation "androidx.test:runner:$androidx_test_core_version"
     androidTestImplementation "androidx.test:rules:$androidx_test_core_version"
