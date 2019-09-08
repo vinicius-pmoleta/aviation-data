@@ -1,7 +1,7 @@
-version: 2
+version: 2.1
 
-references:
-  container_config:
+executors:
+  default_executor:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-28
