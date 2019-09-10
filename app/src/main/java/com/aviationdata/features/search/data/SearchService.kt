@@ -1,6 +1,5 @@
 package com.aviationdata.features.search.data
 
-import com.aviationdata.features.search.data.RawSearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

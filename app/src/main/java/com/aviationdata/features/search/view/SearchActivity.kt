@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aviationdata.R
 import com.aviationdata.core.dependencies.selfBind
 import com.aviationdata.core.structure.ViewHandler
@@ -13,6 +14,7 @@ import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
 import com.aviationdata.core.structure.ViewState.*
 import com.aviationdata.core.utility.dismissKeyboard
+import com.aviationdata.core.view.EndlessRecyclerViewScrollListener
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
 import org.kodein.di.KodeinAware
@@ -28,6 +30,8 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
     override val kodein by selfBind()
 
     private val viewModelHandler: ViewModelHandler<SearchState> by kodein.on(kodeinContext).instance()
+
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
             }
             true
         }
+        search_input_container.setEndIconOnClickListener { clearSearch() }
     }
 
     private fun configureResults() {
@@ -54,12 +59,23 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@SearchActivity)
             adapter = SearchAdapter()
+            scrollListener =
+                object : EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
+                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                        viewModelHandler.handle(MoreResultsInteraction)
+                    }
+                }
+            addOnScrollListener(scrollListener)
         }
     }
 
     private fun submitSearch() {
         val query = search_input.text.toString()
         viewModelHandler.handle(SearchInteraction(query))
+    }
+
+    private fun clearSearch() {
+        viewModelHandler.handle(ClearSearchInteraction)
     }
 
     override fun handle(state: ViewState<SearchState>) {
@@ -73,7 +89,15 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
     }
 
     private fun initialize() {
+        search_toolbar.title = getString(R.string.search_screen_title)
+        search_loading.visibility = View.GONE
+        search_results.visibility = View.VISIBLE
+        (search_results.adapter as SearchAdapter).clear()
+        scrollListener.resetState()
+
+        search_input_bar.setExpanded(true, true)
         search_input.requestFocus()
+        search_input.text?.clear()
     }
 
     private fun prepareExecution() {
@@ -83,7 +107,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
         search_toolbar.title = getString(R.string.search_screen_title_loading)
         dismissKeyboard(this)
         search_input.clearFocus()
-        search_input_container.setExpanded(false, true)
+        search_input_bar.setExpanded(false, true)
     }
 
     private fun handlePresentation(value: SearchState) {
@@ -100,7 +124,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
 
         search_loading.visibility = View.GONE
         search_toolbar.title = getString(R.string.search_screen_title)
-        search_input_container.setExpanded(true, true)
+        search_input_bar.setExpanded(true, true)
         search_input.requestFocus()
     }
 }

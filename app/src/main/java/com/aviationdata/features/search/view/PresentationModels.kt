@@ -14,3 +14,6 @@ data class SearchState(
 )
 
 data class SearchInteraction(val query: String) : UserInteraction
+object MoreResultsInteraction : UserInteraction
+object RetryExecutionInteraction : UserInteraction
+object ClearSearchInteraction : UserInteraction

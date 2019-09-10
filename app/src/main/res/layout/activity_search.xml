@@ -20,7 +20,7 @@
         app:layout_constraintTop_toBottomOf="@id/search_toolbar">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/search_input_container"
+            android:id="@+id/search_input_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -30,6 +30,7 @@
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/search_input_container"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
