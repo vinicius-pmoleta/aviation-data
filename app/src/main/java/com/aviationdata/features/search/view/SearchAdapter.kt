@@ -25,10 +25,9 @@ class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
     }
 
     fun updateResults(newResults: List<SearchResult>) {
-        val start = results.size
         results.clear()
         results.addAll(newResults)
-        notifyItemRangeInserted(start, results.size)
+        notifyDataSetChanged()
     }
 
     fun clear() {

@@ -34,18 +34,18 @@ class SearchScreenTest {
     }
 
     private val viewModelHandler: ViewModelHandler<SearchState> = mock()
-    private val state = MutableLiveData<ViewState<SearchState>>()
+    private val liveState = MutableLiveData<ViewState<SearchState>>()
 
     @Before
     fun setup() {
-        whenever(viewModelHandler.state()).thenReturn(state)
+        whenever(viewModelHandler.liveState()).thenReturn(liveState)
     }
 
     @Test
     fun verifyScreenStateWhenIsFirstLaunch() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        state.postValue(ViewState.FirstLaunch)
+        liveState.postValue(ViewState.FirstLaunch)
 
         SearchRobot.assertInputFocused()
     }
@@ -54,7 +54,7 @@ class SearchScreenTest {
     fun verifyScreenStateWhenIsLoading() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        state.postValue(ViewState.Loading.FromEmpty)
+        liveState.postValue(ViewState.Loading.FromEmpty)
 
         SearchRobot
             .assertTitle(resources().getString(R.string.search_screen_title_loading))
@@ -74,7 +74,7 @@ class SearchScreenTest {
         )
         val searchState = SearchState(query = query, results = results)
 
-        state.postValue(ViewState.Success(searchState))
+        liveState.postValue(ViewState.Success(searchState))
 
         SearchRobot
             .assertTitle(resources().getString(R.string.search_screen_title_with_query, query))
@@ -87,7 +87,7 @@ class SearchScreenTest {
     fun verifyScreenStateWhenOperationFailed() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        state.postValue(ViewState.Failed(reason = Throwable()))
+        liveState.postValue(ViewState.Failed(reason = Throwable()))
 
         SearchRobot
             .assertTitle(resources().getString(R.string.search_screen_title))
@@ -100,11 +100,11 @@ class SearchScreenTest {
     fun verifyActionTriggeredWhenSearchSubmitted() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        state.postValue(ViewState.FirstLaunch)
+        liveState.postValue(ViewState.FirstLaunch)
 
         val query = "Test"
         SearchRobot.searchFor(query)
 
-        verify(viewModelHandler).handle(SearchInteraction(query))
+        verify(viewModelHandler).handle(SearchInteraction.Search(query))
     }
 }

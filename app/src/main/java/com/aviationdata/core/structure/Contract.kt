@@ -20,7 +20,7 @@ interface UserInteraction
 
 interface ViewModelHandler<T> {
     fun handle(interaction: UserInteraction)
-    fun state(): LiveData<ViewState<T>>
+    fun liveState(): LiveData<ViewState<T>>
 }
 
 interface ViewHandler<in T> {

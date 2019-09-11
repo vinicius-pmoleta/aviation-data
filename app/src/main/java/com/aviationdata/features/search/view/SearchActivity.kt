@@ -41,7 +41,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
         configureInput()
         configureResults()
 
-        viewModelHandler.state().observe(this, Observer { handle(it) })
+        viewModelHandler.liveState().observe(this, Observer { handle(it) })
     }
 
     private fun configureInput() {
@@ -51,7 +51,9 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
             }
             true
         }
-        search_input_container.setEndIconOnClickListener { clearSearch() }
+        search_input_container.setEndIconOnClickListener {
+            viewModelHandler.handle(SearchInteraction.Reset)
+        }
     }
 
     private fun configureResults() {
@@ -62,7 +64,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
             scrollListener =
                 object : EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                        viewModelHandler.handle(MoreResultsInteraction)
+                        viewModelHandler.handle(SearchInteraction.More)
                     }
                 }
             addOnScrollListener(scrollListener)
@@ -71,11 +73,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
 
     private fun submitSearch() {
         val query = search_input.text.toString()
-        viewModelHandler.handle(SearchInteraction(query))
-    }
-
-    private fun clearSearch() {
-        viewModelHandler.handle(ClearSearchInteraction)
+        viewModelHandler.handle(SearchInteraction.Search(query))
     }
 
     override fun handle(state: ViewState<SearchState>) {
@@ -119,7 +117,9 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
 
     private fun handleError() {
         Snackbar.make(search_coordinator, R.string.search_error, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.default_retry_action) { submitSearch() }
+            .setAction(R.string.default_retry_action) {
+                viewModelHandler.handle(SearchInteraction.Retry)
+            }
             .show()
 
         search_loading.visibility = View.GONE

@@ -1,7 +1,8 @@
 package com.aviationdata.features.search
 
-import com.aviationdata.core.structure.Aircraft
+import com.aviationdata.features.search.business.Pagination
 import com.aviationdata.features.search.business.SearchBusiness
+import com.aviationdata.features.search.business.SearchData
 import com.aviationdata.features.search.data.SearchRemoteRepository
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -22,12 +23,12 @@ class SearchBusinessTest {
     fun `verify search is performed on remote repository`() = runBlockingTest {
         val query = "query"
 
-        val remoteResults = listOf(mock<Aircraft>())
-        whenever(remoteRepository.search(query, 1)).thenReturn(remoteResults)
+        val data = SearchData(results = listOf(mock()), pagination = Pagination())
+        whenever(remoteRepository.search(query, 1)).thenReturn(data)
 
         val results = business.search(query)
 
         assertNotNull(results)
-        assertEquals(remoteResults, results)
+        assertEquals(data, results)
     }
 }

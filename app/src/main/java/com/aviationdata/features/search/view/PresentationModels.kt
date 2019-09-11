@@ -13,7 +13,9 @@ data class SearchState(
     val results: List<SearchResult> = mutableListOf()
 )
 
-data class SearchInteraction(val query: String) : UserInteraction
-object MoreResultsInteraction : UserInteraction
-object RetryExecutionInteraction : UserInteraction
-object ClearSearchInteraction : UserInteraction
+sealed class SearchInteraction : UserInteraction {
+    data class Search(val query: String) : SearchInteraction()
+    object More : SearchInteraction()
+    object Retry : SearchInteraction()
+    object Reset : SearchInteraction()
+}

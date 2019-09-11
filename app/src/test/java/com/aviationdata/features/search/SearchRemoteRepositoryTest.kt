@@ -23,10 +23,13 @@ class SearchRemoteRepositoryTest {
         val rawResponse = mockSearchRawModels(0)
         mockSearchService(query, page, rawResponse)
 
-        val results = repository.search(query, page)
+        val data = repository.search(query, page)
 
-        assertNotNull(results)
-        assertTrue(results.isEmpty())
+        assertNotNull(data)
+        assertTrue(data.results.isEmpty())
+        assertEquals(query, data.query)
+        assertEquals(page, data.pagination.page)
+        assertEquals(0, data.pagination.totalPages)
     }
 
     @Test
@@ -37,11 +40,14 @@ class SearchRemoteRepositoryTest {
         val rawResponse = mockSearchRawModels(1)
         mockSearchService(query, page, rawResponse)
 
-        val results = repository.search(query, page)
+        val data = repository.search(query, page)
 
-        assertNotNull(results)
-        assertEquals(1, results.size)
-        assertRawToDomainConversion(rawResponse.results.first(), results.first())
+        assertNotNull(data)
+        assertEquals(1, data.results.size)
+        assertEquals(query, data.query)
+        assertEquals(page, data.pagination.page)
+        assertEquals(page, data.pagination.totalPages)
+        assertRawToDomainConversion(rawResponse.results.first(), data.results.first())
     }
 
     private suspend fun mockSearchService(
@@ -73,7 +79,7 @@ class SearchRemoteRepositoryTest {
                 )
             )
         }
-        return RawSearchResponse(results = rawResults)
+        return RawSearchResponse(results = rawResults, pages = size)
     }
 
     private fun assertRawToDomainConversion(raw: RawSearchResult, domain: Aircraft) {
