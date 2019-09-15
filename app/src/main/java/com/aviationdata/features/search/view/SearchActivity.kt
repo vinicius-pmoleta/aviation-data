@@ -78,7 +78,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAwar
 
     override fun handle(state: ViewState<SearchState>) {
         when (state) {
-            is FirstLaunch -> initialize()
+            is Initializing -> initialize()
             is Loading.FromEmpty -> prepareExecution()
             is Loading.FromPrevious -> handlePresentation(state.previous)
             is Success -> handlePresentation(state.value)

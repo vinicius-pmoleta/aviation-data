@@ -15,14 +15,18 @@ import com.aviationdata.features.search.view.SearchState
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+data class InternalData(
+    var pagination: Pagination = Pagination(),
+    var state: SearchState = SearchState()
+)
+
 class SearchViewModel(
     private val business: SearchBusiness,
     private val mapper: SearchMapper,
     private val dispatchers: AppDispatchers
 ) : ViewModel(), ViewModelHandler<SearchState> {
 
-    internal var pagination = Pagination()
-    internal var state = SearchState()
+    internal var internalData = InternalData()
 
     private val _stateLiveData = MutableLiveData<ViewState<SearchState>>()
     private val stateLiveData: LiveData<ViewState<SearchState>>
@@ -47,43 +51,44 @@ class SearchViewModel(
 
     private fun runSearch(query: String) {
         emit(ViewState.Loading.FromEmpty)
-        pagination = Pagination()
-        state = SearchState(query = query)
-        execute(pagination.page)
+        internalData = InternalData(
+            pagination = Pagination(),
+            state = SearchState(query = query)
+        )
+        execute(internalData.pagination.page)
     }
 
     private fun loadMoreResults() {
-        if (pagination.hasMore()) {
-            execute(pagination.page + 1)
+        if (internalData.pagination.hasMore()) {
+            execute(internalData.pagination.page + 1)
         }
     }
 
     private fun retryLastExecution() {
-        emit(ViewState.Loading.FromPrevious(state))
-        execute(pagination.page)
+        emit(ViewState.Loading.FromPrevious(internalData.state))
+        execute(internalData.pagination.page)
     }
 
     private fun resetSearch() {
-        pagination = Pagination()
-        state = SearchState()
-        emit(ViewState.FirstLaunch)
+        internalData = InternalData()
+        emit(ViewState.Initializing)
     }
 
     private fun execute(page: Int) {
         viewModelScope.launch {
             try {
                 val data = withContext(dispatchers.io) {
-                    business.search(state.query, page)
+                    business.search(internalData.state.query, page)
                 }
                 val newResults = data.results.map { mapper.toPresentation(it) }
-                pagination = data.pagination
+                internalData.pagination = data.pagination
 
-                state = state.let {
+                internalData.state = internalData.state.let {
                     it.copy(
                         results = it.results + newResults
                     )
                 }
-                emit(ViewState.Success(state))
+                emit(ViewState.Success(internalData.state))
             } catch (error: Throwable) {
                 emit(ViewState.Failed(error))
             }

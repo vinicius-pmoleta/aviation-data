@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 
 sealed class ViewState<out T> {
 
-    object FirstLaunch : ViewState<Nothing>()
+    object Initializing : ViewState<Nothing>()
 
     sealed class Loading<T> : ViewState<T>() {
         object FromEmpty : Loading<Nothing>()

@@ -64,7 +64,7 @@ ext {
     junit_version = '4.12'
     mockito_version = '3.0.0'
     mockito_kotlin_version = '2.1.0'
-    androidx_lifecycle_testing_version = '2.1.0-rc01'
+    androidx_lifecycle_testing_version = '2.1.0'
 
     // Android Test
     androidx_test_core_version = '1.2.0'

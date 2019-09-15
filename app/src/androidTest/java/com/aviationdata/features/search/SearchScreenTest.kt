@@ -45,7 +45,7 @@ class SearchScreenTest {
     fun verifyScreenStateWhenIsFirstLaunch() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        liveState.postValue(ViewState.FirstLaunch)
+        liveState.postValue(ViewState.Initializing)
 
         SearchRobot.assertInputFocused()
     }
@@ -100,7 +100,7 @@ class SearchScreenTest {
     fun verifyActionTriggeredWhenSearchSubmitted() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        liveState.postValue(ViewState.FirstLaunch)
+        liveState.postValue(ViewState.Initializing)
 
         val query = "Test"
         SearchRobot.searchFor(query)

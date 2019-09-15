@@ -10,7 +10,7 @@ data class SearchResult(
 
 data class SearchState(
     val query: String = "",
-    val results: List<SearchResult> = mutableListOf()
+    val results: List<SearchResult> = listOf()
 )
 
 sealed class SearchInteraction : UserInteraction {
