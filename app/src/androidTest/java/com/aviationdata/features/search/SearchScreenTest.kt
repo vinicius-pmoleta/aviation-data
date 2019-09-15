@@ -42,7 +42,7 @@ class SearchScreenTest {
     }
 
     @Test
-    fun verifyScreenStateWhenIsFirstLaunch() {
+    fun verifyScreenStateWhenIsInitializing() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
@@ -63,7 +63,7 @@ class SearchScreenTest {
     }
 
     @Test
-    fun verifyScreenStateWhenOperationSucceeded() {
+    fun verifyScreenStateWhenSearchSucceeded() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
         val query = "Test"
@@ -84,7 +84,7 @@ class SearchScreenTest {
     }
 
     @Test
-    fun verifyScreenStateWhenOperationFailed() {
+    fun verifyScreenStateWhenSearchFailedAndRetry() {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Failed(reason = Throwable()))
@@ -94,6 +94,46 @@ class SearchScreenTest {
             .assertLoadingHidden()
             .assertResultsDisplayedWithSize(0)
             .assertSnackbarText(resources().getString(R.string.search_error))
+            .assertSnackbarAction(resources().getString(R.string.default_retry_action))
+            .performSnackbarAction()
+
+        verify(viewModelHandler).handle(SearchInteraction.Retry)
+    }
+
+    @Test
+    fun verifyScreenStateWhenReachPageResultsEnd() {
+        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+
+        val query = "Test"
+        val results = mutableListOf<SearchResult>()
+        repeat(20) {
+            results.add(SearchResult("identification$it", "operation$it", "model$it"))
+        }
+        val searchState = SearchState(query = query, results = results)
+
+        liveState.postValue(ViewState.Success(searchState))
+
+        SearchRobot
+            .assertTitle(resources().getString(R.string.search_screen_title_with_query, query))
+            .assertLoadingHidden()
+            .assertResultsDisplayedWithSize(results.size)
+            .assertResults(results)
+            .scrollResultsToPosition(results.size)
+
+        verify(viewModelHandler).handle(SearchInteraction.More)
+    }
+
+    @Test
+    fun verifyScreenStateWhenSearchReset() {
+        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+
+        liveState.postValue(ViewState.Initializing)
+
+        SearchRobot
+            .writeQuery("Test")
+            .resetSearch()
+
+        verify(viewModelHandler).handle(SearchInteraction.Reset)
     }
 
     @Test
@@ -103,8 +143,18 @@ class SearchScreenTest {
         liveState.postValue(ViewState.Initializing)
 
         val query = "Test"
-        SearchRobot.searchFor(query)
+        SearchRobot
+            .writeQuery(query)
+            .search()
 
         verify(viewModelHandler).handle(SearchInteraction.Search(query))
+    }
+
+    @Test
+    fun verifyActionTriggeredWhenSearchReset() {
+    }
+
+    @Test
+    fun verifyActionTriggeredWhenSearchResultsReachEndPageResults() {
     }
 }

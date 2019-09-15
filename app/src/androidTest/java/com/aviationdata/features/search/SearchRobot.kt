@@ -1,15 +1,19 @@
 package com.aviationdata.features.search
 
+import android.widget.Button
 import com.aviationdata.R
 import com.aviationdata.core.robot.BaseRobot
 import com.aviationdata.core.robot.common.LoadingRobot
 import com.aviationdata.features.search.view.SearchResult
+import com.google.android.material.internal.CheckableImageButton
+import com.schibsted.spain.barista.assertion.BaristaAssertions.assertAny
 import com.schibsted.spain.barista.assertion.BaristaFocusedAssertions.assertFocused
 import com.schibsted.spain.barista.assertion.BaristaListAssertions.assertListItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
 import com.schibsted.spain.barista.interaction.BaristaKeyboardInteractions.pressImeActionButton
+import com.schibsted.spain.barista.interaction.BaristaListInteractions.scrollListToPosition
 
 object SearchRobot : BaseRobot() {
 
@@ -54,9 +58,25 @@ object SearchRobot : BaseRobot() {
         return this
     }
 
-    fun searchFor(query: String): SearchRobot {
+    fun scrollResultsToPosition(position: Int): SearchRobot {
+        scrollListToPosition(SearchPage.results, position)
+        return this
+    }
+
+    fun writeQuery(query: String): SearchRobot {
         writeTo(SearchPage.input, query)
+        return this
+    }
+
+    fun search(): SearchRobot {
         pressImeActionButton()
+        return this
+    }
+
+    fun resetSearch(): SearchRobot {
+        assertAny<CheckableImageButton>(com.google.android.material.R.id.text_input_end_icon) {
+            it.performClick()
+        }
         return this
     }
 
