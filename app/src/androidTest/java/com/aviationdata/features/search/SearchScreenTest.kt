@@ -15,6 +15,7 @@ import com.aviationdata.features.search.view.SearchInteraction
 import com.aviationdata.features.search.view.SearchResult
 import com.aviationdata.features.search.view.SearchState
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.junit.Before
@@ -133,7 +134,7 @@ class SearchScreenTest {
             .writeQuery("Test")
             .resetSearch()
 
-        verify(viewModelHandler).handle(SearchInteraction.Reset)
+        verify(viewModelHandler, times(2)).handle(SearchInteraction.Reset)
     }
 
     @Test
