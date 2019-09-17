@@ -13,7 +13,6 @@ import com.aviationdata.core.rules.DependencyOverrideRule
 import com.aviationdata.features.search.view.SearchActivity
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
