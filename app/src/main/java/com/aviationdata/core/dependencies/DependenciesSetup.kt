@@ -3,6 +3,8 @@ package com.aviationdata.core.dependencies
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import com.aviationdata.core.dependencies.modules.applicationModule
+import com.aviationdata.core.dependencies.modules.networkModule
 import com.aviationdata.features.search.searchModule
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -13,7 +15,6 @@ import org.kodein.di.generic.singleton
 
 object KodeinTags {
     const val HOST_ACTIVITY = "host-activity"
-    const val BASE_URL = "base-url"
 }
 
 fun AppCompatActivity.selfBind(bindings: Kodein.MainBuilder.() -> Unit = {}) = Kodein.lazy {

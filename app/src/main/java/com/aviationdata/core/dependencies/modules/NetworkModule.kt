@@ -1,7 +1,6 @@
-package com.aviationdata.core.dependencies
+package com.aviationdata.core.dependencies.modules
 
 import com.aviationdata.BuildConfig
-import com.aviationdata.core.structure.AppDispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
@@ -11,13 +10,6 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-val applicationModule = Kodein.Module("application") {
-
-    bind() from singleton {
-        AppDispatchers()
-    }
-}
 
 val networkModule = Kodein.Module("network") {
 
@@ -31,12 +23,20 @@ val networkModule = Kodein.Module("network") {
     }
 
     bind() from singleton {
-        Retrofit.Builder()
-            .baseUrl(instance<String>(KodeinTags.BASE_URL))
+        RetrofitBuilder.build(
+            url = "https://opensky-network.org/",
+            client = instance()
+        )
+    }
+}
+
+object RetrofitBuilder {
+
+    fun build(url: String, client: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(instance())
+            .client(client)
             .build()
     }
-
-    bind<String>(KodeinTags.BASE_URL) with singleton { "https://opensky-network.org/" }
 }

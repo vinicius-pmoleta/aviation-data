@@ -5,7 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import com.aviationdata.R
-import com.aviationdata.core.dependencies.KodeinTags
+import com.aviationdata.core.dependencies.modules.RetrofitBuilder
 import com.aviationdata.core.readFile
 import com.aviationdata.core.resources
 import com.aviationdata.core.rules.BackendRule
@@ -15,7 +15,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import retrofit2.Retrofit
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -26,10 +28,12 @@ class SearchFlowTest {
 
     @get:Rule
     val dependenciesRule = DependencyOverrideRule {
-        bind<String>(
-            tag = KodeinTags.BASE_URL,
-            overrides = true
-        ) with provider { backendRule.baseUrl }
+        bind<Retrofit>(overrides = true) with provider {
+            RetrofitBuilder.build(
+                url = backendRule.baseUrl,
+                client = instance()
+            )
+        }
     }
 
     @Test
