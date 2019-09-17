@@ -13,6 +13,7 @@ import org.kodein.di.generic.singleton
 
 object KodeinTags {
     const val HOST_ACTIVITY = "host-activity"
+    const val BASE_URL = "base-url"
 }
 
 fun AppCompatActivity.selfBind(bindings: Kodein.MainBuilder.() -> Unit = {}) = Kodein.lazy {

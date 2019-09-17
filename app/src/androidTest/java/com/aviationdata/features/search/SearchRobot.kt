@@ -1,9 +1,9 @@
 package com.aviationdata.features.search
 
-import android.widget.Button
 import com.aviationdata.R
 import com.aviationdata.core.robot.BaseRobot
 import com.aviationdata.core.robot.common.LoadingRobot
+import com.aviationdata.core.waitForView
 import com.aviationdata.features.search.view.SearchResult
 import com.google.android.material.internal.CheckableImageButton
 import com.schibsted.spain.barista.assertion.BaristaAssertions.assertAny
@@ -38,33 +38,43 @@ object SearchRobot : BaseRobot() {
     }
 
     fun assertResultsDisplayedWithSize(size: Int): SearchRobot {
-        assertDisplayed(SearchPage.results)
-        assertListItemCount(SearchPage.results, size)
+        waitForView(SearchPage.results) {
+            assertDisplayed(SearchPage.results)
+            assertListItemCount(SearchPage.results, size)
+        }
         return this
     }
 
     fun assertResultsHidden(): SearchRobot {
-        assertNotDisplayed(SearchPage.results)
+        waitForView(SearchPage.results) {
+            assertNotDisplayed(SearchPage.results)
+        }
         return this
     }
 
     fun assertResults(results: List<SearchResult>): SearchRobot {
-        for ((position, result) in results.withIndex()) {
-            SearchResultRobot(SearchPage.results, position)
-                .assertIdentification(result.identification)
-                .assertModel(result.model)
-                .assertOperation(result.operation)
+        waitForView(SearchPage.results) {
+            for ((position, result) in results.withIndex()) {
+                SearchResultRobot(SearchPage.results, position)
+                    .assertIdentification(result.identification)
+                    .assertModel(result.model)
+                    .assertOperation(result.operation)
+            }
         }
         return this
     }
 
     fun scrollResultsToPosition(position: Int): SearchRobot {
-        scrollListToPosition(SearchPage.results, position)
+        waitForView(SearchPage.results) {
+            scrollListToPosition(SearchPage.results, position)
+        }
         return this
     }
 
     fun writeQuery(query: String): SearchRobot {
-        writeTo(SearchPage.input, query)
+        waitForView(SearchPage.input) {
+            writeTo(SearchPage.input, query)
+        }
         return this
     }
 

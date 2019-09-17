@@ -32,9 +32,11 @@ val networkModule = Kodein.Module("network") {
 
     bind() from singleton {
         Retrofit.Builder()
-            .baseUrl("https://opensky-network.org/")
+            .baseUrl(instance<String>(KodeinTags.BASE_URL))
             .addConverterFactory(GsonConverterFactory.create())
             .client(instance())
             .build()
     }
+
+    bind<String>(KodeinTags.BASE_URL) with singleton { "https://opensky-network.org/" }
 }
