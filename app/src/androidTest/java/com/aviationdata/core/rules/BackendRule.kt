@@ -3,6 +3,7 @@ package com.aviationdata.core.rules
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.rules.ExternalResource
 
 class BackendRule : ExternalResource() {
@@ -32,12 +33,12 @@ class BackendRule : ExternalResource() {
         return this
     }
 
-    fun check(method: String, queryParameters: Map<String, String>) {
+    fun checkRequest(method: String = "GET", path: String = "/", parameters: Map<String, String>) {
         val request = server.takeRequest()
         assertEquals(method, request.method)
-        queryParameters.entries.forEach {
+        assertTrue(request.path!!.contains(path))
+        parameters.entries.forEach {
             assertEquals(it.value, request.requestUrl?.queryParameter(it.key))
         }
     }
-
 }

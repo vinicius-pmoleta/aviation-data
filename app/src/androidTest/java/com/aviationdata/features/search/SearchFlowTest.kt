@@ -13,6 +13,7 @@ import com.aviationdata.core.rules.DependencyOverrideRule
 import com.aviationdata.features.search.view.SearchActivity
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
@@ -43,9 +44,19 @@ class SearchFlowTest {
         SearchRobot
             .writeQuery("747")
             .search()
+
+        backendRule.checkRequest(
+            parameters = mapOf("p" to "1", "q" to "747")
+        )
+
         SearchRobot
             .assertResultsDisplayedWithSize(25)
             .scrollResultsToPosition(24)
+
+        backendRule.checkRequest(
+            parameters = mapOf("p" to "2", "q" to "747")
+        )
+
         SearchRobot
             .assertResultsDisplayedWithSize(50)
     }
@@ -60,6 +71,11 @@ class SearchFlowTest {
         SearchRobot
             .writeQuery("Nothing")
             .search()
+
+        backendRule.checkRequest(
+            parameters = mapOf("p" to "1", "q" to "Nothing")
+        )
+
         SearchRobot
             .assertResultsDisplayedWithSize(0)
     }
@@ -73,13 +89,21 @@ class SearchFlowTest {
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
         SearchRobot
-            .writeQuery("Nothing")
+            .writeQuery("747")
             .search()
-//        backendRule.check("GET", mapOf("p" to "1"))
+
+        backendRule.checkRequest(
+            parameters = mapOf("p" to "1", "q" to "747")
+        )
+
         SearchRobot
             .assertSnackbarText(resources().getString(R.string.search_error))
             .performSnackbarAction()
-//        backendRule.check("GET", mapOf("p" to "1"))
+
+        backendRule.checkRequest(
+            parameters = mapOf("p" to "1", "q" to "747")
+        )
+
         SearchRobot
             .assertResultsDisplayedWithSize(25)
     }
