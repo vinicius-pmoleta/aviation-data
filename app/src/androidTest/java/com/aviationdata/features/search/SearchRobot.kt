@@ -4,7 +4,7 @@ import com.aviationdata.R
 import com.aviationdata.core.robot.BaseRobot
 import com.aviationdata.core.robot.common.LoadingRobot
 import com.aviationdata.core.waitForView
-import com.aviationdata.features.search.view.SearchResult
+import com.aviationdata.search.view.SearchResult
 import com.google.android.material.internal.CheckableImageButton
 import com.schibsted.spain.barista.assertion.BaristaAssertions.assertAny
 import com.schibsted.spain.barista.assertion.BaristaFocusedAssertions.assertFocused
@@ -52,7 +52,7 @@ object SearchRobot : BaseRobot() {
         return this
     }
 
-    fun assertResults(results: List<SearchResult>): SearchRobot {
+    fun assertResults(results: List<com.aviationdata.search.view.SearchResult>): SearchRobot {
         waitForView(SearchPage.results) {
             for ((position, result) in results.withIndex()) {
                 SearchResultRobot(SearchPage.results, position)

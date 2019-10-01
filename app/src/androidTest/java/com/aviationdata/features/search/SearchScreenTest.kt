@@ -10,10 +10,10 @@ import com.aviationdata.core.resources
 import com.aviationdata.core.rules.DependencyOverrideRule
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
-import com.aviationdata.features.search.view.SearchActivity
-import com.aviationdata.features.search.view.SearchInteraction
-import com.aviationdata.features.search.view.SearchResult
-import com.aviationdata.features.search.view.SearchState
+import com.aviationdata.search.view.SearchActivity
+import com.aviationdata.search.view.SearchInteraction
+import com.aviationdata.search.view.SearchResult
+import com.aviationdata.search.view.SearchState
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
@@ -31,11 +31,11 @@ class SearchScreenTest {
 
     @get:Rule
     val dependenciesRule = DependencyOverrideRule {
-        bind<ViewModelHandler<SearchState>>(overrides = true) with provider { viewModelHandler }
+        bind<ViewModelHandler<com.aviationdata.search.view.SearchState>>(overrides = true) with provider { viewModelHandler }
     }
 
-    private val viewModelHandler: ViewModelHandler<SearchState> = mock()
-    private val liveState = MutableLiveData<ViewState<SearchState>>()
+    private val viewModelHandler: ViewModelHandler<com.aviationdata.search.view.SearchState> = mock()
+    private val liveState = MutableLiveData<ViewState<com.aviationdata.search.view.SearchState>>()
 
     @Before
     fun setup() {
@@ -44,7 +44,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenIsInitializing() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 
@@ -53,7 +53,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenIsLoading() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Loading.FromEmpty)
 
@@ -65,15 +65,15 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchSucceeded() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         val query = "Test"
         val results = listOf(
-            SearchResult("identification1", "operation1", "model1"),
-            SearchResult("identification2", "operation2", "model2"),
-            SearchResult("identification3", "operation3", "model3")
+            com.aviationdata.search.view.SearchResult("identification1", "operation1", "model1"),
+            com.aviationdata.search.view.SearchResult("identification2", "operation2", "model2"),
+            com.aviationdata.search.view.SearchResult("identification3", "operation3", "model3")
         )
-        val searchState = SearchState(query = query, results = results)
+        val searchState = com.aviationdata.search.view.SearchState(query = query, results = results)
 
         liveState.postValue(ViewState.Success(searchState))
 
@@ -86,7 +86,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchFailedAndRetry() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Failed(reason = Throwable()))
 
@@ -98,19 +98,25 @@ class SearchScreenTest {
             .assertSnackbarAction(resources().getString(R.string.default_retry_action))
             .performSnackbarAction()
 
-        verify(viewModelHandler).handle(SearchInteraction.Retry)
+        verify(viewModelHandler).handle(com.aviationdata.search.view.SearchInteraction.Retry)
     }
 
     @Test
     fun verifyScreenStateWhenReachPageResultsEnd() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         val query = "Test"
-        val results = mutableListOf<SearchResult>()
+        val results = mutableListOf<com.aviationdata.search.view.SearchResult>()
         repeat(20) {
-            results.add(SearchResult("identification$it", "operation$it", "model$it"))
+            results.add(
+                com.aviationdata.search.view.SearchResult(
+                    "identification$it",
+                    "operation$it",
+                    "model$it"
+                )
+            )
         }
-        val searchState = SearchState(query = query, results = results)
+        val searchState = com.aviationdata.search.view.SearchState(query = query, results = results)
 
         liveState.postValue(ViewState.Success(searchState))
 
@@ -121,12 +127,12 @@ class SearchScreenTest {
             .assertResults(results)
             .scrollResultsToPosition(results.size)
 
-        verify(viewModelHandler).handle(SearchInteraction.More)
+        verify(viewModelHandler).handle(com.aviationdata.search.view.SearchInteraction.More)
     }
 
     @Test
     fun verifyScreenStateWhenSearchReset() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 
@@ -134,12 +140,12 @@ class SearchScreenTest {
             .writeQuery("Test")
             .resetSearch()
 
-        verify(viewModelHandler, times(2)).handle(SearchInteraction.Reset)
+        verify(viewModelHandler, times(2)).handle(com.aviationdata.search.view.SearchInteraction.Reset)
     }
 
     @Test
     fun verifyActionTriggeredWhenSearchSubmitted() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(com.aviationdata.search.view.SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 
@@ -148,7 +154,7 @@ class SearchScreenTest {
             .writeQuery(query)
             .search()
 
-        verify(viewModelHandler).handle(SearchInteraction.Search(query))
+        verify(viewModelHandler).handle(com.aviationdata.search.view.SearchInteraction.Search(query))
     }
 
     @Test

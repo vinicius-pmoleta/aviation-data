@@ -12,8 +12,8 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class SearchRemoteRepositoryTest {
 
-    private val service: SearchService = mock()
-    private val repository = SearchRemoteRepository(service)
+    private val service: com.aviationdata.search.data.SearchService = mock()
+    private val repository = com.aviationdata.search.data.SearchRemoteRepository(service)
 
     @Test
     fun `verify service empty raw models converted to empty domain models`() = runBlockingTest {
@@ -53,24 +53,24 @@ class SearchRemoteRepositoryTest {
     private suspend fun mockSearchService(
         query: String,
         page: Int,
-        rawResponse: RawSearchResponse
+        rawResponse: com.aviationdata.search.data.RawSearchResponse
     ) {
         whenever(
             service.search(
                 query,
                 page,
-                DEFAULT_SEARCH_RESULTS_PER_PAGE,
-                DEFAULT_SEARCH_SORT_BY_FIELD,
-                DEFAULT_SEARCH_SORT_ORDER_FIELD
+                com.aviationdata.search.data.DEFAULT_SEARCH_RESULTS_PER_PAGE,
+                com.aviationdata.search.data.DEFAULT_SEARCH_SORT_BY_FIELD,
+                com.aviationdata.search.data.DEFAULT_SEARCH_SORT_ORDER_FIELD
             )
         ).thenReturn(rawResponse)
     }
 
-    private fun mockSearchRawModels(size: Int = 0): RawSearchResponse {
-        val rawResults = mutableListOf<RawSearchResult>()
+    private fun mockSearchRawModels(size: Int = 0): com.aviationdata.search.data.RawSearchResponse {
+        val rawResults = mutableListOf<com.aviationdata.search.data.RawSearchResult>()
         repeat(size) {
             rawResults.add(
-                RawSearchResult(
+                com.aviationdata.search.data.RawSearchResult(
                     icao24 = "icao24$it",
                     registration = "registration$it",
                     model = "model$it",
@@ -79,10 +79,10 @@ class SearchRemoteRepositoryTest {
                 )
             )
         }
-        return RawSearchResponse(results = rawResults, pages = size)
+        return com.aviationdata.search.data.RawSearchResponse(results = rawResults, pages = size)
     }
 
-    private fun assertRawToDomainConversion(raw: RawSearchResult, domain: Aircraft) {
+    private fun assertRawToDomainConversion(raw: com.aviationdata.search.data.RawSearchResult, domain: Aircraft) {
         assertEquals(raw.icao24, domain.identification.icao24)
         assertEquals(raw.registration, domain.identification.registration)
         assertEquals(raw.model, domain.information.model)

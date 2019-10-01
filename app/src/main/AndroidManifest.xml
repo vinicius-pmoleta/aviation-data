@@ -14,7 +14,7 @@
         android:theme="@style/Theme.AviationData.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".features.search.view.SearchActivity">
+        <activity android:name=".search.view.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
