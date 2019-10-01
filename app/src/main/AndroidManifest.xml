@@ -2,8 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aviationdata">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".core.AviationDataApplication"
         android:allowBackup="true"
@@ -12,16 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AviationData.DayNight"
-        tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".search.view.SearchActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-    </application>
+        tools:ignore="GoogleAppIndexingWarning" />
 
 </manifest>

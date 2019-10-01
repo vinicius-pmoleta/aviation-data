@@ -62,6 +62,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     // Test
+    testImplementation project(":core-test")
     testImplementation "junit:junit:$junit_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
@@ -69,6 +70,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-debug:$coroutines_version"
 
     // Android Test
+    androidTestImplementation project(":core-androidtest")
     androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso_core_version"
