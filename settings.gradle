@@ -1,1 +1,1 @@
-include ':app', ':search', ':core', ':core-test', ':core-androidtest'
+include ':app', ':features:search', 'common:core', 'common:core-test', 'common:core-androidtest'

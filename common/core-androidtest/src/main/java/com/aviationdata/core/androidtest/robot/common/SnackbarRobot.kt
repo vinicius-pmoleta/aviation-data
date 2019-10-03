@@ -2,7 +2,6 @@ package com.aviationdata.core.androidtest.robot.common
 
 import android.widget.Button
 import android.widget.TextView
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.aviationdata.core.androidtest.waitForView
 import com.google.android.material.R
 import com.schibsted.spain.barista.assertion.BaristaAssertions.assertAny
