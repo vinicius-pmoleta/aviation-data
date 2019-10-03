@@ -15,25 +15,15 @@ import com.aviationdata.core.structure.ViewState.*
 import com.aviationdata.core.utility.dismissKeyboard
 import com.aviationdata.core.view.EndlessRecyclerViewScrollListener
 import com.aviationdata.search.R
-import com.aviationdata.search.searchModule
+import com.aviationdata.search.searchComponent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_search.*
-import org.kodein.di.KodeinAware
-import org.kodein.di.KodeinContext
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.kcontext
-import org.kodein.di.generic.on
 import com.aviationdata.core.R as coreR
 
-class SearchActivity : AppCompatActivity(), ViewHandler<SearchState>, KodeinAware {
+class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
 
-    override val kodeinContext: KodeinContext<SearchActivity> = kcontext(this)
-
-    override val kodein by selfBind {
-        import(searchModule)
-    }
-
-    private val viewModelHandler: ViewModelHandler<SearchState> by kodein.on(kodeinContext).instance()
+    private val viewModelHandler: ViewModelHandler<SearchState> by selfBind(searchComponent).instance()
 
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 

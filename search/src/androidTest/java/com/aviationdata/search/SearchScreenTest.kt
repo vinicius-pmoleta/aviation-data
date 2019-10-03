@@ -30,7 +30,7 @@ import com.aviationdata.core.R as coreR
 class SearchScreenTest {
 
     @get:Rule
-    val dependenciesRule = DependencyOverrideRule {
+    val dependenciesRule = DependencyOverrideRule(searchComponent) {
         bind<ViewModelHandler<SearchState>>(overrides = true) with provider { viewModelHandler }
     }
 
@@ -57,7 +57,10 @@ class SearchScreenTest {
 
         liveState.postValue(ViewState.Loading.FromEmpty)
 
-        SearchRobot.assertResultsHidden()
+        SearchRobot
+            .assertTitle(resources().getString(R.string.search_screen_title_loading))
+            .assertLoadingDisplayed()
+            .assertResultsHidden()
     }
 
     @Test
@@ -74,7 +77,11 @@ class SearchScreenTest {
 
         liveState.postValue(ViewState.Success(searchState))
 
-        SearchRobot.assertResults(results)
+        SearchRobot
+            .assertTitle(resources().getString(R.string.search_screen_title_with_query, query))
+            .assertLoadingHidden()
+            .assertResultsDisplayedWithSize(results.size)
+            .assertResults(results)
     }
 
     @Test
@@ -83,7 +90,10 @@ class SearchScreenTest {
 
         liveState.postValue(ViewState.Failed(reason = Throwable()))
 
-        SearchRobot.assertResultsDisplayedWithSize(0)
+        SearchRobot
+            .assertTitle(resources().getString(R.string.search_screen_title))
+            .assertLoadingHidden()
+            .assertResultsDisplayedWithSize(0)
             .assertSnackbarText(resources().getString(R.string.search_error))
             .assertSnackbarAction(resources().getString(coreR.string.default_retry_action))
             .performSnackbarAction()
@@ -98,19 +108,18 @@ class SearchScreenTest {
         val query = "Test"
         val results = mutableListOf<SearchResult>()
         repeat(20) {
-            results.add(
-                SearchResult(
-                    "identification$it",
-                    "operation$it",
-                    "model$it"
-                )
-            )
+            results.add(SearchResult("identification$it", "operation$it", "model$it"))
         }
         val searchState = SearchState(query = query, results = results)
 
         liveState.postValue(ViewState.Success(searchState))
 
-        SearchRobot.scrollResultsToPosition(results.size)
+        SearchRobot
+            .assertTitle(resources().getString(R.string.search_screen_title_with_query, query))
+            .assertLoadingHidden()
+            .assertResultsDisplayedWithSize(results.size)
+            .assertResults(results)
+            .scrollResultsToPosition(results.size)
 
         verify(viewModelHandler).handle(SearchInteraction.More)
     }
@@ -121,24 +130,23 @@ class SearchScreenTest {
 
         liveState.postValue(ViewState.Initializing)
 
-        SearchRobot.resetSearch()
+        SearchRobot
+            .writeQuery("Test")
+            .resetSearch()
 
-        verify(
-            viewModelHandler,
-            times(2)
-        ).handle(SearchInteraction.Reset)
+        verify(viewModelHandler, times(2)).handle(SearchInteraction.Reset)
     }
 
     @Test
     fun verifyActionTriggeredWhenSearchSubmitted() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(
-            Intent()
-        )
+        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 
         val query = "Test"
-        SearchRobot.search()
+        SearchRobot
+            .writeQuery(query)
+            .search()
 
         verify(viewModelHandler).handle(SearchInteraction.Search(query))
     }

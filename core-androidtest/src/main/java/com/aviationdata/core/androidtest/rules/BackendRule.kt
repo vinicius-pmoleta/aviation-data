@@ -8,7 +8,7 @@ import org.junit.rules.ExternalResource
 
 class BackendRule : ExternalResource() {
 
-    lateinit var server: MockWebServer
+    private lateinit var server: MockWebServer
     lateinit var baseUrl: String
 
     override fun before() {

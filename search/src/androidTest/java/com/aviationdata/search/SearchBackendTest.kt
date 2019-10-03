@@ -20,13 +20,13 @@ import retrofit2.Retrofit
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class SearchFlowTest {
+class SearchBackendTest {
 
     @get:Rule
     val backendRule = BackendRule()
 
     @get:Rule
-    val dependenciesRule = DependencyOverrideRule {
+    val dependenciesRule = DependencyOverrideRule(searchComponent) {
         bind<Retrofit>(overrides = true) with provider {
             RetrofitBuilder.build(
                 url = backendRule.baseUrl,
@@ -43,19 +43,24 @@ class SearchFlowTest {
 
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        SearchRobot.search()
+        SearchRobot
+            .writeQuery("747")
+            .search()
 
         backendRule.checkRequest(
             parameters = mapOf("p" to "1", "q" to "747")
         )
 
-        SearchRobot.scrollResultsToPosition(24)
+        SearchRobot
+            .assertResultsDisplayedWithSize(25)
+            .scrollResultsToPosition(24)
 
         backendRule.checkRequest(
             parameters = mapOf("p" to "2", "q" to "747")
         )
 
-        SearchRobot.assertResultsDisplayedWithSize(50)
+        SearchRobot
+            .assertResultsDisplayedWithSize(50)
     }
 
     @Test
@@ -65,13 +70,16 @@ class SearchFlowTest {
 
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        SearchRobot.search()
+        SearchRobot
+            .writeQuery("Nothing")
+            .search()
 
         backendRule.checkRequest(
             parameters = mapOf("p" to "1", "q" to "Nothing")
         )
 
-        SearchRobot.assertResultsDisplayedWithSize(0)
+        SearchRobot
+            .assertResultsDisplayedWithSize(0)
     }
 
     @Test
@@ -82,7 +90,9 @@ class SearchFlowTest {
 
         ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
 
-        SearchRobot.search()
+        SearchRobot
+            .writeQuery("747")
+            .search()
 
         backendRule.checkRequest(
             parameters = mapOf("p" to "1", "q" to "747")
@@ -96,6 +106,7 @@ class SearchFlowTest {
             parameters = mapOf("p" to "1", "q" to "747")
         )
 
-        SearchRobot.assertResultsDisplayedWithSize(25)
+        SearchRobot
+            .assertResultsDisplayedWithSize(25)
     }
 }

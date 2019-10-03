@@ -1,14 +1,15 @@
 package com.aviationdata.core.androidtest.rules
 
-import com.aviationdata.core.dependencies.DependenciesSetup
 import org.junit.rules.ExternalResource
 import org.kodein.di.Kodein
+import org.kodein.di.conf.ConfigurableKodein
 
 class DependencyOverrideRule(
-    private val bindings: Kodein.MainBuilder.() -> Unit
+    component: ConfigurableKodein,
+    bindings: Kodein.MainBuilder.() -> Unit
 ) : ExternalResource() {
 
     init {
-        DependenciesSetup.container.addConfig { bindings() }
+        component.addConfig { bindings() }
     }
 }

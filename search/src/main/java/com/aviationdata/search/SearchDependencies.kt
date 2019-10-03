@@ -4,6 +4,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aviationdata.core.dependencies.KodeinTags
+import com.aviationdata.core.dependencies.coreComponent
 import com.aviationdata.core.structure.AppDispatchers
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.search.business.SearchBusiness
@@ -13,6 +14,7 @@ import com.aviationdata.search.view.SearchState
 import com.aviationdata.search.viewmodel.SearchMapper
 import com.aviationdata.search.viewmodel.SearchViewModel
 import org.kodein.di.Kodein
+import org.kodein.di.conf.ConfigurableKodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
@@ -34,7 +36,7 @@ class SearchViewModelFactory(
     }
 }
 
-val searchModule = Kodein.Module("search") {
+internal val searchModule = Kodein.Module("search") {
 
     bind() from provider {
         val retrofit = instance<Retrofit>()
@@ -61,4 +63,9 @@ val searchModule = Kodein.Module("search") {
 
         ViewModelProvider(owner, factory).get(SearchViewModel::class.java)
     }
+}
+
+internal val searchComponent = ConfigurableKodein(mutable = true).apply {
+    addExtend(coreComponent)
+    addImport(searchModule)
 }
