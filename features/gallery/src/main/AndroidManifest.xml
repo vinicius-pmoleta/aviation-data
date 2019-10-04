@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aviationdata.features.gallery">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:theme="@style/Theme.AviationData.DayNight">
+        <activity android:name=".view.GalleryActivity" />
+    </application>
+
+</manifest>

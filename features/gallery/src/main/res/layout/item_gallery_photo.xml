@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gallery_photo_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/gallery_photo_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_photo_24dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/gallery_photo_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Notes" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/gallery_photo_photographer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/gallery_photo_notes"
+        tools:text="Photographer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,11 +46,6 @@ dependencies {
     implementation "org.kodein.di:kodein-di-conf-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
 
-    // Third part
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-
     // Android Test
     implementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     implementation "org.mockito:mockito-android:$mockito_version"

@@ -1,0 +1,90 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.compile_sdk_version
+    buildToolsVersion rootProject.build_tools_version
+
+
+    defaultConfig {
+        minSdkVersion rootProject.min_sdk_version
+        targetSdkVersion rootProject.target_sdk_version
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation project(":common:core")
+
+    // Android UI
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+    implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
+    implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
+    implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation "androidx.viewpager2:viewpager2:$androidx_viewpager_version"
+    implementation "com.google.android.material:material:$material_version"
+
+    // Third part
+    implementation "io.coil-kt:coil:$coil_version"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+
+    // Dependency Injection
+    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    implementation "org.kodein.di:kodein-di-conf-jvm:$kodein_version"
+    implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+
+    // Test
+    testImplementation project(":common:core-test")
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "androidx.arch.core:core-testing:$androidx_lifecycle_testing_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-debug:$coroutines_version"
+
+    // Android Test
+    androidTestImplementation project(":common:core-androidtest")
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso_core_version"
+    androidTestImplementation "androidx.test:runner:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:rules:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:core:$androidx_test_core_version"
+    androidTestImplementation "androidx.test:core-ktx:$androidx_test_core_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_test_junit_version"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidx_test_junit_version"
+    androidTestImplementation "com.schibsted.spain:barista:$barista_version"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+}
