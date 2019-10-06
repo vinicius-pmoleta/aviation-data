@@ -15,5 +15,5 @@ data class GalleryState(
 
 sealed class GalleryInteraction : UserInteraction {
     data class Load(val registration: String) : GalleryInteraction()
-    object Retry : GalleryInteraction()
+    data class Retry(val registration: String) : GalleryInteraction()
 }

@@ -4,7 +4,7 @@ import com.aviationdata.features.gallery.data.GalleryRemoteRepository
 
 class GalleryBusiness(private val remoteRepository: GalleryRemoteRepository) {
 
-    suspend fun loadPhotosFor(registration: String): List<GalleryPhotoData> {
+    suspend fun loadPhotosFor(registration: String): List<PhotoData> {
         return remoteRepository.loadPhotosFor(registration)
     }
 }

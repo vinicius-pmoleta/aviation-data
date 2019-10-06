@@ -64,7 +64,7 @@ class GalleryActivity : AppCompatActivity(), ViewHandler<GalleryState> {
         gallery_loading.visibility = View.GONE
         Snackbar.make(gallery_root, R.string.gallery_error, Snackbar.LENGTH_INDEFINITE)
             .setAction(coreR.string.default_retry_action) {
-                viewModelHandler.handle(GalleryInteraction.Retry)
+                viewModelHandler.handle(GalleryInteraction.Retry(""))
             }
             .show()
     }

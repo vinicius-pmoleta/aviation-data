@@ -16,8 +16,7 @@ import org.junit.Test
 class SearchBusinessTest {
 
     private val remoteRepository: SearchRemoteRepository = mock()
-    private val business =
-        SearchBusiness(remoteRepository)
+    private val business = SearchBusiness(remoteRepository)
 
     @Test
     fun `verify search is performed on remote repository`() = runBlockingTest {

@@ -15,8 +15,7 @@ import org.junit.runner.RunWith
 @LargeTest
 class SearchMapperTest {
 
-    private val mapper =
-        SearchMapper(InstrumentationRegistry.getInstrumentation().targetContext)
+    private val mapper = SearchMapper(InstrumentationRegistry.getInstrumentation().targetContext)
 
     @Test
     fun verifyIdentificationMappedToPlaceHolderWhenValuesNotAvailable() {

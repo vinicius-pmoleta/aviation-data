@@ -31,7 +31,7 @@ class GalleryViewModel(
     override fun handle(interaction: UserInteraction) {
         when (interaction) {
             is GalleryInteraction.Load -> fetchPhotosFor(interaction.registration)
-            is GalleryInteraction.Retry -> fetchPhotosFor("")
+            is GalleryInteraction.Retry -> fetchPhotosFor(interaction.registration)
         }
     }
 
