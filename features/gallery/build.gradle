@@ -53,8 +53,10 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:$androidx_viewpager_version"
     implementation "com.google.android.material:material:$material_version"
 
-    // Third part
-    implementation "io.coil-kt:coil:$coil_version"
+    // Android Architecture Components
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidx_lifecycle_version"
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -65,6 +67,12 @@ dependencies {
     implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-conf-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+
+    // Third part
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    implementation "io.coil-kt:coil:$coil_version"
 
     // Test
     testImplementation project(":common:core-test")

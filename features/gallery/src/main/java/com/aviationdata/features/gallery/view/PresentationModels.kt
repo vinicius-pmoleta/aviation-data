@@ -13,7 +13,7 @@ data class GalleryState(
     val results: List<PhotoResult> = listOf()
 )
 
-sealed class PhotoInteraction : UserInteraction {
-    data class Load(val registration: String) : PhotoInteraction()
-    object Retry : PhotoInteraction()
+sealed class GalleryInteraction : UserInteraction {
+    data class Load(val registration: String) : GalleryInteraction()
+    object Retry : GalleryInteraction()
 }

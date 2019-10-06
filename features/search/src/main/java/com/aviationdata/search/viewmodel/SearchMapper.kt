@@ -24,7 +24,8 @@ class SearchMapper(private val context: Context) {
                     operation.country.ifEmpty { noValuePlaceHolder },
                     operation.operator.ifEmpty { noValuePlaceHolder }
                 ),
-                model = information.model)
+                model = information.model
+            )
         }
     }
 }
