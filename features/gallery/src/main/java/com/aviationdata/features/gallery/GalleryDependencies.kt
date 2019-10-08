@@ -39,7 +39,7 @@ class SearchViewModelFactory(
 internal val galleryModule = Kodein.Module("gallery") {
 
     bind() from provider {
-        val retrofit = instance<Retrofit>()
+        val retrofit = instance<Retrofit>(KodeinTags.REMOTE_SOURCE_JET_PHOTOS)
         val service = retrofit.create(GalleryService::class.java)
 
         GalleryRemoteRepository(service)

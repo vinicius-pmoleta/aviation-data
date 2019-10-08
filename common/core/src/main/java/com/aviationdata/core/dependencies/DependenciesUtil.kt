@@ -9,6 +9,8 @@ import org.kodein.di.generic.provider
 
 object KodeinTags {
     const val HOST_ACTIVITY = "host-activity"
+    const val REMOTE_SOURCE_OPEN_SKY = "opensky-remote"
+    const val REMOTE_SOURCE_JET_PHOTOS = "jetphotos-remote"
 }
 
 fun AppCompatActivity.selfBind(component: ConfigurableKodein) = Kodein.lazy {

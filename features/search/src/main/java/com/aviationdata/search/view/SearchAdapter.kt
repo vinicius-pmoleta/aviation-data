@@ -8,7 +8,9 @@ import com.aviationdata.search.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_search_result.*
 
-class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
+class SearchAdapter(
+    private val selectResult: (result: SearchResult) -> Unit
+) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     private val results = mutableListOf<SearchResult>()
 
@@ -34,14 +36,15 @@ class SearchAdapter : RecyclerView.Adapter<SearchViewHolder>() {
         results.clear()
         notifyDataSetChanged()
     }
-}
 
-class SearchViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
-    LayoutContainer {
+    inner class SearchViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
+        LayoutContainer {
 
-    fun bind(result: SearchResult) {
-        search_result_identification.text = result.identification
-        search_result_model.text = result.model
-        search_result_operation.text = result.operation
+        fun bind(result: SearchResult) {
+            search_result_identification.text = result.identification
+            search_result_model.text = result.model
+            search_result_operation.text = result.operation
+            containerView.setOnClickListener { selectResult(result) }
+        }
     }
 }

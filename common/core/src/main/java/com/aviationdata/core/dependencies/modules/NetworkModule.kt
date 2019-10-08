@@ -1,5 +1,6 @@
 package com.aviationdata.core.dependencies.modules
 
+import com.aviationdata.core.dependencies.KodeinTags
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
@@ -21,9 +22,16 @@ val networkModule = Kodein.Module("network") {
             .build()
     }
 
-    bind() from singleton {
+    bind(KodeinTags.REMOTE_SOURCE_OPEN_SKY) from singleton {
         RetrofitBuilder.build(
             url = "https://opensky-network.org/",
+            client = instance()
+        )
+    }
+
+    bind(KodeinTags.REMOTE_SOURCE_JET_PHOTOS) from singleton {
+        RetrofitBuilder.build(
+            url = "https://www.jetphotos.com/",
             client = instance()
         )
     }

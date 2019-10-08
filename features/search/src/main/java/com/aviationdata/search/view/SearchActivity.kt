@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aviationdata.common.navigation.Navigator
 import com.aviationdata.core.dependencies.selfBind
 import com.aviationdata.core.structure.ViewHandler
 import com.aviationdata.core.structure.ViewModelHandler
@@ -54,7 +55,9 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
         search_results.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@SearchActivity)
-            adapter = SearchAdapter()
+            adapter = SearchAdapter {
+                startActivity(Navigator.intentToGallery(this@SearchActivity))
+            }
             scrollListener =
                 object : EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {

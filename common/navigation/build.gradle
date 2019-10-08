@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
@@ -6,25 +6,18 @@ android {
     compileSdkVersion rootProject.compile_sdk_version
     buildToolsVersion rootProject.build_tools_version
 
+
     defaultConfig {
         minSdkVersion rootProject.min_sdk_version
         targetSdkVersion rootProject.target_sdk_version
 
-        applicationId "com.aviationdata"
-        versionCode 1
-        versionName "1.0.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
-        debug {
-            applicationIdSuffix ".debug"
-            testCoverageEnabled true
-            minifyEnabled false
-        }
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -42,8 +35,4 @@ androidExtensions {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation project(":common:core")
-    implementation project(":features:search")
-    implementation project(":features:gallery")
 }

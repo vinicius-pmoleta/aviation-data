@@ -39,7 +39,7 @@ class SearchViewModelFactory(
 internal val searchModule = Kodein.Module("search") {
 
     bind() from provider {
-        val retrofit = instance<Retrofit>()
+        val retrofit = instance<Retrofit>(KodeinTags.REMOTE_SOURCE_OPEN_SKY)
         val service = retrofit.create(SearchService::class.java)
 
         SearchRemoteRepository(service)

@@ -8,6 +8,7 @@ import com.aviationdata.core.androidtest.readFile
 import com.aviationdata.core.androidtest.resources
 import com.aviationdata.core.androidtest.rules.BackendRule
 import com.aviationdata.core.androidtest.rules.DependencyOverrideRule
+import com.aviationdata.core.dependencies.KodeinTags
 import com.aviationdata.core.dependencies.modules.RetrofitBuilder
 import com.aviationdata.search.view.SearchActivity
 import org.junit.Rule
@@ -27,7 +28,7 @@ class SearchBackendTest {
 
     @get:Rule
     val dependenciesRule = DependencyOverrideRule(searchComponent) {
-        bind<Retrofit>(overrides = true) with provider {
+        bind<Retrofit>(overrides = true, tag = KodeinTags.REMOTE_SOURCE_OPEN_SKY) with provider {
             RetrofitBuilder.build(
                 url = backendRule.baseUrl,
                 client = instance()
