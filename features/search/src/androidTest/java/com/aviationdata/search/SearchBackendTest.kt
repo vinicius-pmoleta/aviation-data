@@ -10,7 +10,7 @@ import com.aviationdata.core.androidtest.rules.BackendRule
 import com.aviationdata.core.androidtest.rules.DependencyOverrideRule
 import com.aviationdata.core.dependencies.KodeinTags
 import com.aviationdata.core.dependencies.modules.RetrofitBuilder
-import com.aviationdata.search.view.SearchActivity
+import com.aviationdata.search.view.SearchFragment
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,7 +42,7 @@ class SearchBackendTest {
             .prepare(200, readFile("search_200_results_page_1.json"))
             .prepare(200, readFile("search_200_results_page_2.json"))
 
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         SearchRobot
             .writeQuery("747")
@@ -69,7 +69,7 @@ class SearchBackendTest {
         backendRule
             .prepare(200, readFile("search_200_no_results.json"))
 
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         SearchRobot
             .writeQuery("Nothing")
@@ -89,7 +89,7 @@ class SearchBackendTest {
             .prepare(500)
             .prepare(200, readFile("search_200_results_page_1.json"))
 
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         SearchRobot
             .writeQuery("747")

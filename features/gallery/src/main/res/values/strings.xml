@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Gallery -->
+    <string name="gallery_screen_title">Gallery %s</string>
     <string name="gallery_error">Error while trying to load photos</string>
 
 </resources>

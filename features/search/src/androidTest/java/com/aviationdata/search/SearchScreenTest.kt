@@ -9,7 +9,7 @@ import com.aviationdata.core.androidtest.resources
 import com.aviationdata.core.androidtest.rules.DependencyOverrideRule
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
-import com.aviationdata.search.view.SearchActivity
+import com.aviationdata.search.view.SearchFragment
 import com.aviationdata.search.view.SearchInteraction
 import com.aviationdata.search.view.SearchResult
 import com.aviationdata.search.view.SearchState
@@ -44,7 +44,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenIsInitializing() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 
@@ -53,7 +53,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenIsLoading() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Loading.FromEmpty)
 
@@ -65,7 +65,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchSucceeded() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         val query = "Test"
         val results = listOf(
@@ -86,7 +86,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchFailedAndRetry() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Failed(reason = Throwable()))
 
@@ -103,7 +103,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenReachPageResultsEnd() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         val query = "Test"
         val results = mutableListOf<SearchResult>()
@@ -126,7 +126,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchReset() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 
@@ -139,7 +139,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyActionTriggeredWhenSearchSubmitted() {
-        ActivityTestRule(SearchActivity::class.java).launchActivity(Intent())
+        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
 
         liveState.postValue(ViewState.Initializing)
 

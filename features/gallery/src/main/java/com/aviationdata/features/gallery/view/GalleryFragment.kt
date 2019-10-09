@@ -1,10 +1,13 @@
 package com.aviationdata.features.gallery.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.aviationdata.core.dependencies.selfBind
+import com.aviationdata.core.extension.selfBind
+import com.aviationdata.core.extension.updateTitle
 import com.aviationdata.core.structure.ViewHandler
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
@@ -12,18 +15,24 @@ import com.aviationdata.core.structure.ViewState.*
 import com.aviationdata.features.gallery.R
 import com.aviationdata.features.gallery.galleryComponent
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_gallery.*
+import kotlinx.android.synthetic.main.fragment_gallery.*
 import org.kodein.di.generic.instance
 import com.aviationdata.core.R as coreR
 
-class GalleryActivity : AppCompatActivity(), ViewHandler<GalleryState> {
+class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
 
     private val viewModelHandler: ViewModelHandler<GalleryState> by selfBind(galleryComponent).instance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gallery)
-        setSupportActionBar(gallery_toolbar)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_gallery, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         configurePhotoGallery()
 
@@ -47,6 +56,7 @@ class GalleryActivity : AppCompatActivity(), ViewHandler<GalleryState> {
 
     private fun initialize() {
         // TODO set aircraft registration as toolbar title
+        updateTitle(getString(R.string.gallery_screen_title))
     }
 
     private fun prepareExecution() {

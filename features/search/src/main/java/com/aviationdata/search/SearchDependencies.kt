@@ -1,5 +1,6 @@
 package com.aviationdata.search
 
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -50,7 +51,8 @@ internal val searchModule = Kodein.Module("search") {
     }
 
     bind() from provider {
-        SearchMapper(instance(KodeinTags.HOST_ACTIVITY))
+        val owner = instance<Fragment>(KodeinTags.HOST)
+        SearchMapper(owner.requireContext())
     }
 
     bind<ViewModelHandler<SearchState>>() with provider {
@@ -59,7 +61,7 @@ internal val searchModule = Kodein.Module("search") {
             mapper = instance(),
             dispatchers = instance()
         )
-        val owner = instance<FragmentActivity>(KodeinTags.HOST_ACTIVITY)
+        val owner = instance<Fragment>(KodeinTags.HOST)
 
         ViewModelProvider(owner, factory).get(SearchViewModel::class.java)
     }

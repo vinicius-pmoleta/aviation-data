@@ -1,4 +1,4 @@
-package com.aviationdata.core
+package com.aviationdata
 
 import android.app.Application
 

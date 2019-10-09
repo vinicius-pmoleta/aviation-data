@@ -1,14 +1,17 @@
 package com.aviationdata.search.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aviationdata.common.navigation.Navigator
-import com.aviationdata.core.dependencies.selfBind
+import com.aviationdata.core.extension.selfBind
+import com.aviationdata.core.extension.updateTitle
 import com.aviationdata.core.structure.ViewHandler
 import com.aviationdata.core.structure.ViewModelHandler
 import com.aviationdata.core.structure.ViewState
@@ -18,20 +21,26 @@ import com.aviationdata.core.view.EndlessRecyclerViewScrollListener
 import com.aviationdata.search.R
 import com.aviationdata.search.searchComponent
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_search.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import org.kodein.di.generic.instance
 import com.aviationdata.core.R as coreR
 
-class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
+class SearchFragment : Fragment(), ViewHandler<SearchState> {
 
     private val viewModelHandler: ViewModelHandler<SearchState> by selfBind(searchComponent).instance()
 
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        setSupportActionBar(search_toolbar)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         configureInput()
         configureResults()
@@ -54,9 +63,11 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
     private fun configureResults() {
         search_results.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@SearchActivity)
+            layoutManager = LinearLayoutManager(requireActivity())
             adapter = SearchAdapter {
-                startActivity(Navigator.intentToGallery(this@SearchActivity))
+                findNavController().navigate(
+                    SearchFragmentDirections.actionOpenGalleryWith(it.identification)
+                )
             }
             scrollListener =
                 object : EndlessRecyclerViewScrollListener(layoutManager as LinearLayoutManager) {
@@ -84,7 +95,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
     }
 
     private fun initialize() {
-        search_toolbar.title = getString(R.string.search_screen_title)
+        updateTitle(getString(R.string.search_screen_title))
         search_loading.visibility = View.GONE
         search_results.visibility = View.VISIBLE
         (search_results.adapter as SearchAdapter).clear()
@@ -99,14 +110,14 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
         search_loading.visibility = View.VISIBLE
         search_results.visibility = View.GONE
 
-        search_toolbar.title = getString(R.string.search_screen_title_loading)
+        updateTitle(getString(R.string.search_screen_title_loading))
         dismissKeyboard(this)
         search_input.clearFocus()
         search_input_bar.setExpanded(false, true)
     }
 
     private fun handlePresentation(value: SearchState) {
-        search_toolbar.title = getString(R.string.search_screen_title_with_query, value.query)
+        updateTitle(getString(R.string.search_screen_title_with_query, value.query))
         search_loading.visibility = View.GONE
         search_results.visibility = View.VISIBLE
         (search_results.adapter as SearchAdapter).updateResults(value.results)
@@ -120,7 +131,7 @@ class SearchActivity : AppCompatActivity(), ViewHandler<SearchState> {
             .show()
 
         search_loading.visibility = View.GONE
-        search_toolbar.title = getString(R.string.search_screen_title)
+        updateTitle(getString(R.string.search_screen_title))
         search_input_bar.setExpanded(true, true)
         search_input.requestFocus()
     }

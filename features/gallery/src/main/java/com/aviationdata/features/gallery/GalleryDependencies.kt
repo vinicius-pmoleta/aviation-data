@@ -1,6 +1,6 @@
 package com.aviationdata.features.gallery
 
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aviationdata.core.dependencies.KodeinTags
@@ -50,7 +50,8 @@ internal val galleryModule = Kodein.Module("gallery") {
     }
 
     bind() from provider {
-        GalleryMapper(instance(KodeinTags.HOST_ACTIVITY))
+        val owner = instance<Fragment>(KodeinTags.HOST)
+        GalleryMapper(owner.requireActivity())
     }
 
     bind<ViewModelHandler<GalleryState>>() with provider {
@@ -59,7 +60,7 @@ internal val galleryModule = Kodein.Module("gallery") {
             mapper = instance(),
             dispatchers = instance()
         )
-        val owner = instance<FragmentActivity>(KodeinTags.HOST_ACTIVITY)
+        val owner = instance<Fragment>(KodeinTags.HOST)
 
         ViewModelProvider(owner, factory).get(GalleryViewModel::class.java)
     }
