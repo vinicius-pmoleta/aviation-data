@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceSubtitle2"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="ICAO24 - Registration" />
+        tools:text="Registration / ICAO24" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/search_result_model"

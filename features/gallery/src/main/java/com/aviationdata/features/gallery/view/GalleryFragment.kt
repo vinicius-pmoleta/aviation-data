@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.aviationdata.core.extension.selfBind
 import com.aviationdata.core.extension.updateTitle
 import com.aviationdata.core.structure.ViewHandler
@@ -21,6 +22,7 @@ import com.aviationdata.core.R as coreR
 
 class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
 
+    private val arguments: GalleryFragmentArgs by navArgs()
     private val viewModelHandler: ViewModelHandler<GalleryState> by selfBind(galleryComponent).instance()
 
     override fun onCreateView(
@@ -55,8 +57,10 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
     }
 
     private fun initialize() {
-        // TODO set aircraft registration as toolbar title
-        updateTitle(getString(R.string.gallery_screen_title))
+        val registration = arguments.registration
+        updateTitle(getString(R.string.gallery_screen_title, registration))
+
+        viewModelHandler.handle(GalleryInteraction.Load(registration))
     }
 
     private fun prepareExecution() {
@@ -74,7 +78,7 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
         gallery_loading.visibility = View.GONE
         Snackbar.make(gallery_root, R.string.gallery_error, Snackbar.LENGTH_INDEFINITE)
             .setAction(coreR.string.default_retry_action) {
-                viewModelHandler.handle(GalleryInteraction.Retry(""))
+                viewModelHandler.handle(GalleryInteraction.Retry(arguments.registration))
             }
             .show()
     }

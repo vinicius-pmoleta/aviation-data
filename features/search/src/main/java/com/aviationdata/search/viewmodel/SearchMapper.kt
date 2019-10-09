@@ -14,11 +14,9 @@ class SearchMapper(private val context: Context) {
     fun toPresentation(aircraft: Aircraft): SearchResult {
         return with(aircraft) {
             SearchResult(
-                identification = context.getString(
-                    R.string.search_result_identification,
-                    identification.registration.ifEmpty { noValuePlaceHolder },
+                identification = identification.registration.ifEmpty {
                     identification.icao24.ifEmpty { noValuePlaceHolder }
-                ),
+                },
                 operation = context.getString(
                     R.string.search_result_operation,
                     operation.country.ifEmpty { noValuePlaceHolder },

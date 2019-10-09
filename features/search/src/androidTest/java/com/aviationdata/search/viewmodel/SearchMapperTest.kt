@@ -21,11 +21,11 @@ class SearchMapperTest {
     fun verifyIdentificationMappedToPlaceHolderWhenValuesNotAvailable() {
         val aircraft = Aircraft(identification = Identification())
         val result = mapper.toPresentation(aircraft)
-        assertEquals("- (-)", result.identification)
+        assertEquals("-", result.identification)
     }
 
     @Test
-    fun verifyIdentificationMappedWhenValuesAvailable() {
+    fun verifyIdentificationMappedWhenRegistrationAvailable() {
         val aircraft = Aircraft(
             identification = Identification(
                 icao24 = "icao24",
@@ -33,7 +33,18 @@ class SearchMapperTest {
             )
         )
         val result = mapper.toPresentation(aircraft)
-        assertEquals("registration (icao24)", result.identification)
+        assertEquals("registration", result.identification)
+    }
+
+    @Test
+    fun verifyIdentificationMappedWhenOnlyICAOAvailable() {
+        val aircraft = Aircraft(
+            identification = Identification(
+                icao24 = "icao24"
+            )
+        )
+        val result = mapper.toPresentation(aircraft)
+        assertEquals("icao24", result.identification)
     }
 
     @Test
