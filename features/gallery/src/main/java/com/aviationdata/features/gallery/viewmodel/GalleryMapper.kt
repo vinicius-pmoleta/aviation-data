@@ -3,7 +3,7 @@ package com.aviationdata.features.gallery.viewmodel
 import android.content.Context
 import com.aviationdata.features.gallery.business.PhotoData
 import com.aviationdata.features.gallery.view.PhotoResult
-import com.aviationdata.core.R as coreR
+import com.aviationdata.common.core.R as coreR
 
 class GalleryMapper(context: Context) {
 

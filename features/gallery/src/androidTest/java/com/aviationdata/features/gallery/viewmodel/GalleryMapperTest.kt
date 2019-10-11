@@ -3,8 +3,8 @@ package com.aviationdata.features.gallery.viewmodel
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import com.aviationdata.core.R
-import com.aviationdata.core.androidtest.resources
+import com.aviationdata.common.core.R
+import com.aviationdata.common.core.androidtest.resources
 import com.aviationdata.features.gallery.business.PhotoData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

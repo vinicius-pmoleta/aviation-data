@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/navigation_feature_search"
-        android:name="com.aviationdata.search.view.SearchFragment">
+        android:name="com.aviationdata.features.search.view.SearchFragment">
         <action
             android:id="@+id/action_open_gallery_with"
             app:destination="@id/navigation_feature_gallery"

@@ -1,6 +1,6 @@
 package com.aviationdata.features.gallery.view
 
-import com.aviationdata.core.structure.UserInteraction
+import com.aviationdata.common.core.structure.UserInteraction
 
 data class PhotoResult(
     val photographer: String = "",

@@ -2,9 +2,9 @@ package com.aviationdata.features.gallery
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.aviationdata.core.structure.ViewModelHandler
-import com.aviationdata.core.structure.ViewState
-import com.aviationdata.core.test.CoroutinesTestRule
+import com.aviationdata.common.core.structure.ViewModelHandler
+import com.aviationdata.common.core.structure.ViewState
+import com.aviationdata.common.core.test.CoroutinesTestRule
 import com.aviationdata.features.gallery.business.GalleryBusiness
 import com.aviationdata.features.gallery.business.PhotoData
 import com.aviationdata.features.gallery.view.GalleryInteraction

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aviationdata.core.structure.AppDispatchers
-import com.aviationdata.core.structure.UserInteraction
-import com.aviationdata.core.structure.ViewModelHandler
-import com.aviationdata.core.structure.ViewState
+import com.aviationdata.common.core.structure.AppDispatchers
+import com.aviationdata.common.core.structure.UserInteraction
+import com.aviationdata.common.core.structure.ViewModelHandler
+import com.aviationdata.common.core.structure.ViewState
 import com.aviationdata.features.gallery.business.GalleryBusiness
 import com.aviationdata.features.gallery.view.GalleryInteraction
 import com.aviationdata.features.gallery.view.GalleryState

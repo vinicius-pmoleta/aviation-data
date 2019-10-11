@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import com.aviationdata.core.extension.selfBind
-import com.aviationdata.core.extension.updateTitle
-import com.aviationdata.core.structure.ViewHandler
-import com.aviationdata.core.structure.ViewModelHandler
-import com.aviationdata.core.structure.ViewState
-import com.aviationdata.core.structure.ViewState.*
+import com.aviationdata.common.core.extension.selfBind
+import com.aviationdata.common.core.extension.updateTitle
+import com.aviationdata.common.core.structure.ViewHandler
+import com.aviationdata.common.core.structure.ViewModelHandler
+import com.aviationdata.common.core.structure.ViewState
+import com.aviationdata.common.core.structure.ViewState.*
 import com.aviationdata.features.gallery.R
 import com.aviationdata.features.gallery.galleryComponent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import org.kodein.di.generic.instance
-import com.aviationdata.core.R as coreR
+import com.aviationdata.common.core.R as coreR
 
 class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
 

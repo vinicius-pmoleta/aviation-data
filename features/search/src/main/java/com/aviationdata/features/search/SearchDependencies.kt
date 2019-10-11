@@ -1,4 +1,4 @@
-package com.aviationdata.features.gallery
+package com.aviationdata.features.search
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -7,12 +7,12 @@ import com.aviationdata.common.core.dependencies.KodeinTags
 import com.aviationdata.common.core.dependencies.coreComponent
 import com.aviationdata.common.core.structure.AppDispatchers
 import com.aviationdata.common.core.structure.ViewModelHandler
-import com.aviationdata.features.gallery.business.GalleryBusiness
-import com.aviationdata.features.gallery.data.GalleryRemoteRepository
-import com.aviationdata.features.gallery.data.GalleryService
-import com.aviationdata.features.gallery.view.GalleryState
-import com.aviationdata.features.gallery.viewmodel.GalleryMapper
-import com.aviationdata.features.gallery.viewmodel.GalleryViewModel
+import com.aviationdata.features.search.business.SearchBusiness
+import com.aviationdata.features.search.data.SearchRemoteRepository
+import com.aviationdata.features.search.data.SearchService
+import com.aviationdata.features.search.view.SearchState
+import com.aviationdata.features.search.viewmodel.SearchMapper
+import com.aviationdata.features.search.viewmodel.SearchViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.conf.ConfigurableKodein
 import org.kodein.di.generic.bind
@@ -21,14 +21,14 @@ import org.kodein.di.generic.provider
 import retrofit2.Retrofit
 
 class SearchViewModelFactory(
-    private val business: GalleryBusiness,
-    private val mapper: GalleryMapper,
+    private val business: SearchBusiness,
+    private val mapper: SearchMapper,
     private val dispatchers: AppDispatchers
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return GalleryViewModel(
+        return SearchViewModel(
             business,
             mapper,
             dispatchers
@@ -36,25 +36,25 @@ class SearchViewModelFactory(
     }
 }
 
-internal val galleryModule = Kodein.Module("gallery") {
+internal val searchModule = Kodein.Module("search") {
 
     bind() from provider {
-        val retrofit = instance<Retrofit>(KodeinTags.REMOTE_SOURCE_JET_PHOTOS)
-        val service = retrofit.create(GalleryService::class.java)
+        val retrofit = instance<Retrofit>(KodeinTags.REMOTE_SOURCE_OPEN_SKY)
+        val service = retrofit.create(SearchService::class.java)
 
-        GalleryRemoteRepository(service)
+        SearchRemoteRepository(service)
     }
 
     bind() from provider {
-        GalleryBusiness(instance())
+        SearchBusiness(instance())
     }
 
     bind() from provider {
         val owner = instance<Fragment>(KodeinTags.HOST)
-        GalleryMapper(owner.requireActivity())
+        SearchMapper(owner.requireContext())
     }
 
-    bind<ViewModelHandler<GalleryState>>() with provider {
+    bind<ViewModelHandler<SearchState>>() with provider {
         val factory = SearchViewModelFactory(
             business = instance(),
             mapper = instance(),
@@ -62,11 +62,11 @@ internal val galleryModule = Kodein.Module("gallery") {
         )
         val owner = instance<Fragment>(KodeinTags.HOST)
 
-        ViewModelProvider(owner, factory).get(GalleryViewModel::class.java)
+        ViewModelProvider(owner, factory).get(SearchViewModel::class.java)
     }
 }
 
-internal val galleryComponent = ConfigurableKodein(mutable = true).apply {
+internal val searchComponent = ConfigurableKodein(mutable = true).apply {
     addExtend(coreComponent)
-    addImport(galleryModule)
+    addImport(searchModule)
 }
