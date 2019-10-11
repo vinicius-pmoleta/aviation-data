@@ -1,9 +1,8 @@
 package com.aviationdata.search
 
-import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
+import com.aviationdata.core.androidtest.base.launchFragmentTest
 import com.aviationdata.core.androidtest.readFile
 import com.aviationdata.core.androidtest.resources
 import com.aviationdata.core.androidtest.rules.BackendRule
@@ -42,7 +41,7 @@ class SearchBackendTest {
             .prepare(200, readFile("search_200_results_page_1.json"))
             .prepare(200, readFile("search_200_results_page_2.json"))
 
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         SearchRobot
             .writeQuery("747")
@@ -69,7 +68,7 @@ class SearchBackendTest {
         backendRule
             .prepare(200, readFile("search_200_no_results.json"))
 
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         SearchRobot
             .writeQuery("Nothing")
@@ -89,7 +88,7 @@ class SearchBackendTest {
             .prepare(500)
             .prepare(200, readFile("search_200_results_page_1.json"))
 
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         SearchRobot
             .writeQuery("747")

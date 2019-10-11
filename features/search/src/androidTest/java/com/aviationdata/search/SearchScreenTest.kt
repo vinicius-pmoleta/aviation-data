@@ -1,10 +1,9 @@
 package com.aviationdata.search
 
-import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
+import com.aviationdata.core.androidtest.base.launchFragmentTest
 import com.aviationdata.core.androidtest.resources
 import com.aviationdata.core.androidtest.rules.DependencyOverrideRule
 import com.aviationdata.core.structure.ViewModelHandler
@@ -44,7 +43,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenIsInitializing() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         liveState.postValue(ViewState.Initializing)
 
@@ -53,19 +52,18 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenIsLoading() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         liveState.postValue(ViewState.Loading.FromEmpty)
 
         SearchRobot
-            .assertTitle(resources().getString(R.string.search_screen_title_loading))
             .assertLoadingDisplayed()
             .assertResultsHidden()
     }
 
     @Test
     fun verifyScreenStateWhenSearchSucceeded() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         val query = "Test"
         val results = listOf(
@@ -78,7 +76,6 @@ class SearchScreenTest {
         liveState.postValue(ViewState.Success(searchState))
 
         SearchRobot
-            .assertTitle(resources().getString(R.string.search_screen_title_with_query, query))
             .assertLoadingHidden()
             .assertResultsDisplayedWithSize(results.size)
             .assertResults(results)
@@ -86,12 +83,11 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchFailedAndRetry() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         liveState.postValue(ViewState.Failed(reason = Throwable()))
 
         SearchRobot
-            .assertTitle(resources().getString(R.string.search_screen_title))
             .assertLoadingHidden()
             .assertResultsDisplayedWithSize(0)
             .assertSnackbarText(resources().getString(R.string.search_error))
@@ -103,7 +99,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenReachPageResultsEnd() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         val query = "Test"
         val results = mutableListOf<SearchResult>()
@@ -115,7 +111,6 @@ class SearchScreenTest {
         liveState.postValue(ViewState.Success(searchState))
 
         SearchRobot
-            .assertTitle(resources().getString(R.string.search_screen_title_with_query, query))
             .assertLoadingHidden()
             .assertResultsDisplayedWithSize(results.size)
             .assertResults(results)
@@ -126,7 +121,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyScreenStateWhenSearchReset() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         liveState.postValue(ViewState.Initializing)
 
@@ -139,7 +134,7 @@ class SearchScreenTest {
 
     @Test
     fun verifyActionTriggeredWhenSearchSubmitted() {
-        ActivityTestRule(SearchFragment::class.java).launchActivity(Intent())
+        launchFragmentTest<SearchFragment>()
 
         liveState.postValue(ViewState.Initializing)
 

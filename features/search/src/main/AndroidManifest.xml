@@ -1,1 +1,6 @@
-<manifest package="com.aviationdata.search" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.aviationdata.search">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

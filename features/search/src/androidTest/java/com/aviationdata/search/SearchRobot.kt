@@ -15,13 +15,8 @@ import com.schibsted.spain.barista.interaction.BaristaListInteractions.scrollLis
 
 object SearchRobot : BaseRobot() {
 
-    fun assertTitle(text: String): SearchRobot {
-        assertToolbarTitle(SearchRobot.SearchPage.toolbar, text)
-        return this
-    }
-
     fun assertInputFocused(): SearchRobot {
-        assertFocused(SearchRobot.SearchPage.input)
+        assertFocused(SearchPage.input)
         return this
     }
 
@@ -36,25 +31,25 @@ object SearchRobot : BaseRobot() {
     }
 
     fun assertResultsDisplayedWithSize(size: Int): SearchRobot {
-        waitForView(SearchRobot.SearchPage.results) {
-            assertDisplayed(SearchRobot.SearchPage.results)
-            assertListItemCount(SearchRobot.SearchPage.results, size)
+        waitForView(SearchPage.results) {
+            assertDisplayed(SearchPage.results)
+            assertListItemCount(SearchPage.results, size)
         }
         return this
     }
 
     fun assertResultsHidden(): SearchRobot {
-        waitForView(SearchRobot.SearchPage.results) {
-            assertNotDisplayed(SearchRobot.SearchPage.results)
+        waitForView(SearchPage.results) {
+            assertNotDisplayed(SearchPage.results)
         }
         return this
     }
 
     fun assertResults(results: List<com.aviationdata.search.view.SearchResult>): SearchRobot {
-        waitForView(SearchRobot.SearchPage.results) {
+        waitForView(SearchPage.results) {
             for ((position, result) in results.withIndex()) {
                 SearchResultRobot(
-                    SearchRobot.SearchPage.results,
+                    SearchPage.results,
                     position
                 )
                     .assertIdentification(result.identification)
@@ -66,15 +61,15 @@ object SearchRobot : BaseRobot() {
     }
 
     fun scrollResultsToPosition(position: Int): SearchRobot {
-        waitForView(SearchRobot.SearchPage.results) {
-            scrollListToPosition(SearchRobot.SearchPage.results, position)
+        waitForView(SearchPage.results) {
+            scrollListToPosition(SearchPage.results, position)
         }
         return this
     }
 
     fun writeQuery(query: String): SearchRobot {
-        waitForView(SearchRobot.SearchPage.input) {
-            writeTo(SearchRobot.SearchPage.input, query)
+        waitForView(SearchPage.input) {
+            writeTo(SearchPage.input, query)
         }
         return this
     }
@@ -92,7 +87,6 @@ object SearchRobot : BaseRobot() {
     }
 
     private object SearchPage {
-        val toolbar = R.id.search_toolbar
         val input = R.id.search_input
         val results = R.id.search_results
     }

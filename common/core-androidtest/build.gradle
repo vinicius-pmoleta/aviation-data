@@ -27,6 +27,12 @@ androidExtensions {
     experimental = true
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -56,6 +62,7 @@ dependencies {
     implementation "androidx.test:core-ktx:$androidx_test_core_version"
     implementation "androidx.test.ext:junit:$androidx_test_junit_version"
     implementation "androidx.test.ext:junit-ktx:$androidx_test_junit_version"
+    implementation "androidx.fragment:fragment-testing:$fragment_version"
     implementation "com.schibsted.spain:barista:$barista_version"
     implementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
 }

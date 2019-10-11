@@ -16,5 +16,8 @@ fun Fragment.selfBind(component: ConfigurableKodein) = Kodein.lazy {
 }
 
 fun Fragment.updateTitle(title: String) {
-    (requireActivity() as AppCompatActivity).supportActionBar?.title = title
+    val activity = requireActivity()
+    if (activity is AppCompatActivity) {
+        activity.supportActionBar?.title = title
+    }
 }

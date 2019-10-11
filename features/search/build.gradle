@@ -27,6 +27,12 @@ androidExtensions {
     experimental = true
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -40,6 +46,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
     implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraint_layout_version"
+    implementation "androidx.fragment:fragment:$fragment_version"
     implementation "com.google.android.material:material:$material_version"
 
     // Android Architecture Components
