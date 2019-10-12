@@ -124,7 +124,7 @@ class SearchFragment : Fragment(), ViewHandler<SearchState> {
     }
 
     private fun handleError() {
-        Snackbar.make(search_coordinator, R.string.search_error, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(search_root, R.string.search_error, Snackbar.LENGTH_INDEFINITE)
             .setAction(coreR.string.default_retry_action) {
                 viewModelHandler.handle(SearchInteraction.Retry)
             }

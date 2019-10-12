@@ -42,8 +42,9 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
     }
 
     private fun configurePhotoGallery() {
-        val adapter = PhotosAdapter()
-        gallery_photos.adapter = adapter
+        gallery_photos.apply {
+            adapter = PhotosAdapter()
+        }
     }
 
     override fun handle(state: ViewState<GalleryState>) {
