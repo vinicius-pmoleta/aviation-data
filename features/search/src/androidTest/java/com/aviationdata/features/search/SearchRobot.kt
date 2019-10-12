@@ -48,10 +48,7 @@ object SearchRobot : BaseRobot() {
     fun assertResults(results: List<com.aviationdata.features.search.view.SearchResult>): SearchRobot {
         waitForView(SearchPage.results) {
             for ((position, result) in results.withIndex()) {
-                SearchResultRobot(
-                    SearchPage.results,
-                    position
-                )
+                SearchResultRobot(SearchPage.results, position)
                     .assertIdentification(result.identification)
                     .assertModel(result.model)
                     .assertOperation(result.operation)

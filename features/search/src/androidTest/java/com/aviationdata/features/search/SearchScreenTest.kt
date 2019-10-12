@@ -66,11 +66,7 @@ class SearchScreenTest {
         launchFragmentTest<SearchFragment>()
 
         val query = "Test"
-        val results = listOf(
-            SearchResult("identification1", "operation1", "model1"),
-            SearchResult("identification2", "operation2", "model2"),
-            SearchResult("identification3", "operation3", "model3")
-        )
+        val results = generateMockResults(3)
         val searchState = SearchState(query = query, results = results)
 
         liveState.postValue(ViewState.Success(searchState))
@@ -102,10 +98,7 @@ class SearchScreenTest {
         launchFragmentTest<SearchFragment>()
 
         val query = "Test"
-        val results = mutableListOf<SearchResult>()
-        repeat(20) {
-            results.add(SearchResult("identification$it", "operation$it", "model$it"))
-        }
+        val results = generateMockResults(20)
         val searchState = SearchState(query = query, results = results)
 
         liveState.postValue(ViewState.Success(searchState))
@@ -146,11 +139,11 @@ class SearchScreenTest {
         verify(viewModelHandler).handle(SearchInteraction.Search(query))
     }
 
-    @Test
-    fun verifyActionTriggeredWhenSearchReset() {
-    }
-
-    @Test
-    fun verifyActionTriggeredWhenSearchResultsReachEndPageResults() {
+    private fun generateMockResults(size: Int): List<SearchResult> {
+        val results = mutableListOf<SearchResult>()
+        repeat(size) {
+            results.add(SearchResult("identification$it", "operation$it", "model$it"))
+        }
+        return results
     }
 }

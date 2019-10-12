@@ -10,10 +10,10 @@ import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertN
 object LoadingRobot : BaseRobot() {
 
     fun assertLabelDisplayed(): LoadingRobot {
-        waitForView(LoadingRobot.LoadingPage.label) {
-            assertDisplayed(LoadingRobot.LoadingPage.label)
+        waitForView(LoadingPage.label) {
+            assertDisplayed(LoadingPage.label)
             assertContains(
-                LoadingRobot.LoadingPage.label,
+                LoadingPage.label,
                 R.string.default_loading_label
             )
         }
@@ -21,7 +21,7 @@ object LoadingRobot : BaseRobot() {
     }
 
     fun assertLabelHidden(): LoadingRobot {
-        assertNotDisplayed(LoadingRobot.LoadingPage.label)
+        assertNotDisplayed(LoadingPage.label)
         return this
     }
 

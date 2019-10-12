@@ -99,6 +99,7 @@ class SearchBackendTest {
         )
 
         SearchRobot
+            .assertResultsHidden()
             .assertSnackbarText(resources().getString(R.string.search_error))
             .performSnackbarAction()
 
