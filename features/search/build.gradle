@@ -1,11 +1,5 @@
 apply from: '../../buildsystem/feature.gradle'
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 dependencies {
     // Android UI
     implementation "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
