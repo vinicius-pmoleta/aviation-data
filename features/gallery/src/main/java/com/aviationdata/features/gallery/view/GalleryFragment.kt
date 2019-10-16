@@ -20,10 +20,14 @@ import kotlinx.android.synthetic.main.fragment_gallery.*
 import org.kodein.di.generic.instance
 import com.aviationdata.common.core.R as coreR
 
+private const val EXTRA_GALLERY_POSITION = "extra_gallery_position"
+
 class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
 
-    private val arguments: GalleryFragmentArgs by navArgs()
     private val viewModelHandler: ViewModelHandler<GalleryState> by selfBind(galleryComponent).instance()
+
+    private val arguments: GalleryFragmentArgs by navArgs()
+    private var stateBundle: Bundle? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +39,16 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        stateBundle = savedInstanceState
 
         configurePhotoGallery()
 
         viewModelHandler.liveState().observe(this, Observer { handle(it) })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(EXTRA_GALLERY_POSITION, gallery_photos.currentItem)
+        super.onSaveInstanceState(outState)
     }
 
     private fun configurePhotoGallery() {
@@ -58,10 +68,8 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
     }
 
     private fun initialize() {
-        val registration = arguments.registration
-        updateTitle(getString(R.string.gallery_screen_title, registration))
-
-        viewModelHandler.handle(GalleryInteraction.Load(registration))
+        updateScreenTitle()
+        viewModelHandler.handle(GalleryInteraction.Load(arguments.registration))
     }
 
     private fun prepareExecution() {
@@ -70,9 +78,13 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
     }
 
     private fun handlePresentation(state: GalleryState) {
+        updateScreenTitle()
+
         (gallery_photos.adapter as PhotosAdapter).updateResults(state.results)
         gallery_loading.visibility = View.GONE
         gallery_photos.visibility = View.VISIBLE
+
+        restoreState()
     }
 
     private fun handleError() {
@@ -82,5 +94,15 @@ class GalleryFragment : Fragment(), ViewHandler<GalleryState> {
                 viewModelHandler.handle(GalleryInteraction.Retry(arguments.registration))
             }
             .show()
+    }
+
+    private fun updateScreenTitle() {
+        val registration = arguments.registration
+        updateTitle(getString(R.string.gallery_screen_title, registration))
+    }
+
+    private fun restoreState() {
+        val position = stateBundle?.getInt(EXTRA_GALLERY_POSITION, 0) ?: 0
+        gallery_photos.setCurrentItem(position, false)
     }
 }
