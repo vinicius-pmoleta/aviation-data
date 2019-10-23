@@ -3,6 +3,7 @@ package com.aviationdata.features.search
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.aviationdata.common.core.R as coreR
 import com.aviationdata.common.core.androidtest.base.launchFragmentTest
 import com.aviationdata.common.core.androidtest.resources
 import com.aviationdata.common.core.androidtest.rules.DependencyOverrideRule
@@ -22,7 +23,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
-import com.aviationdata.common.core.R as coreR
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest

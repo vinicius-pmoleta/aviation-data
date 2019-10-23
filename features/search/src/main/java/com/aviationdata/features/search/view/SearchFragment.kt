@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aviationdata.common.core.R as coreR
 import com.aviationdata.common.core.extension.selfBind
 import com.aviationdata.common.core.extension.updateTitle
 import com.aviationdata.common.core.structure.ViewHandler
@@ -26,7 +27,6 @@ import com.aviationdata.features.search.searchComponent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.kodein.di.generic.instance
-import com.aviationdata.common.core.R as coreR
 
 class SearchFragment : Fragment(), ViewHandler<SearchState> {
 

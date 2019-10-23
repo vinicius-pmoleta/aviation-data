@@ -13,7 +13,6 @@ sealed class ViewState<out T> {
 
     data class Success<T>(val value: T) : ViewState<T>()
     data class Failed(val reason: Throwable) : ViewState<Nothing>()
-
 }
 
 interface UserInteraction

@@ -3,12 +3,17 @@ package com.aviationdata.features.gallery
 import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.aviationdata.common.core.R as coreR
 import com.aviationdata.common.core.androidtest.base.launchParameterizedFragmentTest
 import com.aviationdata.common.core.androidtest.resources
 import com.aviationdata.common.core.androidtest.rules.DependencyOverrideRule
 import com.aviationdata.common.core.structure.ViewModelHandler
 import com.aviationdata.common.core.structure.ViewState
-import com.aviationdata.features.gallery.view.*
+import com.aviationdata.features.gallery.view.GalleryFragment
+import com.aviationdata.features.gallery.view.GalleryFragmentArgs
+import com.aviationdata.features.gallery.view.GalleryInteraction
+import com.aviationdata.features.gallery.view.GalleryState
+import com.aviationdata.features.gallery.view.PhotoResult
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -18,7 +23,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.provider
-import com.aviationdata.common.core.R as coreR
 
 private const val DEFAULT_REGISTRATION = "registration"
 

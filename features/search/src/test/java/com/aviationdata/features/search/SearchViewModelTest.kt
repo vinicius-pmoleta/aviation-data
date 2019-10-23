@@ -15,7 +15,12 @@ import com.aviationdata.features.search.view.SearchState
 import com.aviationdata.features.search.viewmodel.InternalData
 import com.aviationdata.features.search.viewmodel.SearchMapper
 import com.aviationdata.features.search.viewmodel.SearchViewModel
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.never
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals

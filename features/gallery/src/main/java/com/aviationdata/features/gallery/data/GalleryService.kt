@@ -10,5 +10,4 @@ interface GalleryService {
         @Query("reg") registration: String,
         @Query("limit") limit: Int
     ): List<RawPhotoResponse>
-
 }

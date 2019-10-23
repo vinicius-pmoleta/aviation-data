@@ -13,5 +13,4 @@ interface SearchService {
         @Query("sc") sortBy: String,
         @Query("sd") sortOrder: String
     ): RawSearchResponse
-
 }

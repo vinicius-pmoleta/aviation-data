@@ -1,12 +1,20 @@
 package com.aviationdata.features.search
 
 import com.aviationdata.common.core.structure.Aircraft
-import com.aviationdata.features.search.data.*
+import com.aviationdata.features.search.data.DEFAULT_SEARCH_RESULTS_PER_PAGE
+import com.aviationdata.features.search.data.DEFAULT_SEARCH_SORT_BY_FIELD
+import com.aviationdata.features.search.data.DEFAULT_SEARCH_SORT_ORDER_FIELD
+import com.aviationdata.features.search.data.RawSearchResponse
+import com.aviationdata.features.search.data.RawSearchResult
+import com.aviationdata.features.search.data.SearchRemoteRepository
+import com.aviationdata.features.search.data.SearchService
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @ExperimentalCoroutinesApi

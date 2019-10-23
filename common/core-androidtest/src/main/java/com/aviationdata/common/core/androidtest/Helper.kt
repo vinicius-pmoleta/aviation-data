@@ -6,9 +6,9 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
+import java.util.concurrent.TimeUnit
 import org.hamcrest.Matcher
 import org.junit.Assert.assertNotNull
-import java.util.concurrent.TimeUnit
 
 private const val DEFAULT_WAITING_TIME_SECONDS = 5L
 

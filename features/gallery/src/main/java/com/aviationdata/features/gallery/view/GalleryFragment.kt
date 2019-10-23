@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.aviationdata.common.core.R as coreR
 import com.aviationdata.common.core.extension.selfBind
 import com.aviationdata.common.core.extension.updateTitle
 import com.aviationdata.common.core.structure.ViewHandler
@@ -21,7 +22,6 @@ import com.aviationdata.features.gallery.galleryComponent
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import org.kodein.di.generic.instance
-import com.aviationdata.common.core.R as coreR
 
 private const val EXTRA_GALLERY_POSITION = "extra_gallery_position"
 

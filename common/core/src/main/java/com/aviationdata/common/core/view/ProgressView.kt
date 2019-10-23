@@ -31,5 +31,4 @@ class ProgressView : ProgressBar {
         )
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && animationSetting == 0f
     }
-
 }
