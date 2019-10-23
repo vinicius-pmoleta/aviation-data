@@ -3,7 +3,7 @@ package com.aviationdata.features.gallery
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.aviationdata.common.core.dependencies.KodeinTags
+import com.aviationdata.common.core.dependencies.DependenciesUtil
 import com.aviationdata.common.core.dependencies.coreComponent
 import com.aviationdata.common.core.structure.AppDispatchers
 import com.aviationdata.common.core.structure.ViewModelHandler
@@ -20,7 +20,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import retrofit2.Retrofit
 
-class SearchViewModelFactory(
+class GalleryViewModelFactory(
     private val business: GalleryBusiness,
     private val mapper: GalleryMapper,
     private val dispatchers: AppDispatchers
@@ -39,7 +39,7 @@ class SearchViewModelFactory(
 internal val galleryModule = Kodein.Module("gallery") {
 
     bind() from provider {
-        val retrofit = instance<Retrofit>(KodeinTags.REMOTE_SOURCE_JET_PHOTOS)
+        val retrofit = instance<Retrofit>(DependenciesUtil.REMOTE_SOURCE_JET_PHOTOS)
         val service = retrofit.create(GalleryService::class.java)
 
         GalleryRemoteRepository(service)
@@ -50,17 +50,17 @@ internal val galleryModule = Kodein.Module("gallery") {
     }
 
     bind() from provider {
-        val owner = instance<Fragment>(KodeinTags.HOST)
+        val owner = instance<Fragment>(DependenciesUtil.HOST)
         GalleryMapper(owner.requireActivity())
     }
 
     bind<ViewModelHandler<GalleryState>>() with provider {
-        val factory = SearchViewModelFactory(
+        val factory = GalleryViewModelFactory(
             business = instance(),
             mapper = instance(),
             dispatchers = instance()
         )
-        val owner = instance<Fragment>(KodeinTags.HOST)
+        val owner = instance<Fragment>(DependenciesUtil.HOST)
 
         ViewModelProvider(owner, factory).get(GalleryViewModel::class.java)
     }

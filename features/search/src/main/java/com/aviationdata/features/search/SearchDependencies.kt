@@ -3,7 +3,7 @@ package com.aviationdata.features.search
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.aviationdata.common.core.dependencies.KodeinTags
+import com.aviationdata.common.core.dependencies.DependenciesUtil
 import com.aviationdata.common.core.dependencies.coreComponent
 import com.aviationdata.common.core.structure.AppDispatchers
 import com.aviationdata.common.core.structure.ViewModelHandler
@@ -39,7 +39,7 @@ class SearchViewModelFactory(
 internal val searchModule = Kodein.Module("search") {
 
     bind() from provider {
-        val retrofit = instance<Retrofit>(KodeinTags.REMOTE_SOURCE_OPEN_SKY)
+        val retrofit = instance<Retrofit>(DependenciesUtil.REMOTE_SOURCE_OPEN_SKY)
         val service = retrofit.create(SearchService::class.java)
 
         SearchRemoteRepository(service)
@@ -50,7 +50,7 @@ internal val searchModule = Kodein.Module("search") {
     }
 
     bind() from provider {
-        val owner = instance<Fragment>(KodeinTags.HOST)
+        val owner = instance<Fragment>(DependenciesUtil.HOST)
         SearchMapper(owner.requireContext())
     }
 
@@ -60,7 +60,7 @@ internal val searchModule = Kodein.Module("search") {
             mapper = instance(),
             dispatchers = instance()
         )
-        val owner = instance<Fragment>(KodeinTags.HOST)
+        val owner = instance<Fragment>(DependenciesUtil.HOST)
 
         ViewModelProvider(owner, factory).get(SearchViewModel::class.java)
     }

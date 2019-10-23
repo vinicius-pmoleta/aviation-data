@@ -7,7 +7,7 @@ import com.aviationdata.common.core.androidtest.readFile
 import com.aviationdata.common.core.androidtest.resources
 import com.aviationdata.common.core.androidtest.rules.BackendRule
 import com.aviationdata.common.core.androidtest.rules.DependencyOverrideRule
-import com.aviationdata.common.core.dependencies.KodeinTags
+import com.aviationdata.common.core.dependencies.DependenciesUtil
 import com.aviationdata.common.core.dependencies.modules.RetrofitBuilder
 import com.aviationdata.features.gallery.view.GalleryFragment
 import com.aviationdata.features.gallery.view.GalleryFragmentArgs
@@ -30,7 +30,7 @@ class GalleryBackendTest {
 
     @get:Rule
     val dependenciesRule = DependencyOverrideRule(galleryComponent) {
-        bind<Retrofit>(overrides = true, tag = KodeinTags.REMOTE_SOURCE_JET_PHOTOS) with provider {
+        bind<Retrofit>(overrides = true, tag = DependenciesUtil.REMOTE_SOURCE_JET_PHOTOS) with provider {
             RetrofitBuilder.build(
                 url = backendRule.baseUrl,
                 client = instance()

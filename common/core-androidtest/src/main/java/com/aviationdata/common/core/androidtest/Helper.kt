@@ -10,6 +10,8 @@ import org.hamcrest.Matcher
 import org.junit.Assert.assertNotNull
 import java.util.concurrent.TimeUnit
 
+private const val DEFAULT_WAITING_TIME_SECONDS = 5L
+
 fun application() =
     InstrumentationRegistry
         .getInstrumentation()
@@ -34,7 +36,7 @@ fun waitForView(@IdRes id: Int, actions: () -> Unit) {
 }
 
 fun waitForView(matcher: Matcher<View>, actions: () -> Unit) {
-    val waitTime = TimeUnit.SECONDS.toMillis(5)
+    val waitTime = TimeUnit.SECONDS.toMillis(DEFAULT_WAITING_TIME_SECONDS)
     val endTime = System.currentTimeMillis() + waitTime
     do {
         try {

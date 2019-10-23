@@ -15,7 +15,10 @@ import com.aviationdata.common.core.extension.updateTitle
 import com.aviationdata.common.core.structure.ViewHandler
 import com.aviationdata.common.core.structure.ViewModelHandler
 import com.aviationdata.common.core.structure.ViewState
-import com.aviationdata.common.core.structure.ViewState.*
+import com.aviationdata.common.core.structure.ViewState.Failed
+import com.aviationdata.common.core.structure.ViewState.Initializing
+import com.aviationdata.common.core.structure.ViewState.Loading
+import com.aviationdata.common.core.structure.ViewState.Success
 import com.aviationdata.common.core.utility.dismissKeyboard
 import com.aviationdata.common.core.view.EndlessRecyclerViewScrollListener
 import com.aviationdata.features.search.R
