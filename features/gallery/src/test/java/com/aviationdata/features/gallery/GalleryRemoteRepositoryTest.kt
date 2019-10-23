@@ -9,7 +9,9 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
@@ -68,5 +70,4 @@ class GalleryRemoteRepositoryTest {
         assertEquals(raw.photographer, domain.photographer)
         assertEquals(raw.notes, domain.notes)
     }
-
 }

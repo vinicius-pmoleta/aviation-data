@@ -12,7 +12,11 @@ import com.aviationdata.features.gallery.view.GalleryState
 import com.aviationdata.features.gallery.view.PhotoResult
 import com.aviationdata.features.gallery.viewmodel.GalleryMapper
 import com.aviationdata.features.gallery.viewmodel.GalleryViewModel
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
