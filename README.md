@@ -39,6 +39,8 @@ The `navigation` module is, as the name says, responsible for navigation across 
 
 ### Feature
 
+![architecture-data-flow-diagram](.github/architecture-data-flow-diagram.png)
+
 A feature module was designed to be an Android Library that makes use of the common modules when needed. It groups one or more screens that logically makes sense to be together.
 
 At the moment it doesn't make use of the `Android Dynamic Modules` from which we could leverage dynamic feature deliver and smaller APKs. The reason for that is that I couldn't make it work properly with the unit and instrumented tests in a multi-module architecture. In order to proceed with other study topics I decided to address it in a later moment, but an initial attempt to use them can be found at this [branch](https://github.com/vinicius-pmoleta/aviation-data/tree/improvement/adding-dynamic-modules).
