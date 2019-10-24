@@ -38,18 +38,36 @@ The option to use the `Kotlin Coroutines` instead of the common approach to use 
 
 Another decision made was to use `Kodein` instead of the common approach to use `Dagger`. Again one of the reasons to choose Kodein is to explore less verbose options which can provide similar capabilities and also allow an easier injection override on tests to allow screen and integration tests. 
 
-Each feature developments was broken down into the following layers:
+#### Structure
 
-#### Data:
-#### Business:
-#### ViewModel:
-#### View:
+The base idea behind the architecture adopted is that each feature or each screen of a feature would respect the same contract for communication between the `View` and the `ViewModel`. In order to do so it uses this [contract](https://github.com/vinicius-pmoleta/aviation-data/blob/master/common/core/src/main/java/com/aviationdata/common/core/structure/Contract.kt) defined which exposes the `ViewModel`'s state as a `LiveData` and allow it to handle user interactions, while the `View` should be responsible to render the ready to consume state provided and changed on the `ViewModel`.   
+
+The `ViewModel` is responsible for handling user's interaction and address them accordingly orchestrating threads for background work, calling the appropriate business logic and also mapping the results from that layer into models that will are ready to be consumed by the `View` once exposed through its state. One thing important to notice is that the `ViewModel` also does the error handling by catching the exceptions that other layers might have thrown when performing their operations.
+
+The `business layer` as explained before is responsible for performing the business logic associated with specific use cases of the feature while having the support of the `data layer` where operations such as networking, database access, preferences,e tc are performed. It's worth noticing that on the data layer there's also appropriate mapping to pass back to the business layer only information relevant to it.
+
+#### Tests
+
+Each feature has tests to verify the `View`'s behaviour through an instrumented test with a mocked `ViewModel`. On these tests all the states the view consumes can be properly verified as well as the interactions and its internal data when communication with the mocked `ViewModel`.
+
+By mocking the data layer source it's also possible to write tests that check the whole feature flow up to the data source interaction. In this project we mocked the APIs data sources using the `MockWebServer` library, validating the request and its payload submitted to the search while mocking the response. 
+
+The `ViewModel`, mappers, and logic presented on the business and data layers can be unit tests with jUnit and Mockito. 
 
 ### Application
 
 This is the main app module, which due to the decision of making the feature modules as Android libraries, will depend on the the feature modules as well as some common modules such as `core` and `navigation`.
 
+As a consequence of using the Navigation AAC, the application module is where the main activity which will contain the feature fragments and `Toolbar` are configured and initialized.
+
 ## Building and running
+
+By running the script `./build.sh` it will:
+- run static checks (Ktlint and Detekt)
+- run unit tests
+- assemble a debug APK
+
+To run the instrumented tests execute: `./gradlew connectedCheck`
 
 ## Credits
 
