@@ -16,6 +16,8 @@ In order to provide the above-mentioned information the [OpenSky Network](https:
 
 ## Modules
 
+![modules-diagram](.github/modules-diagram.png)
+
 ### Common
 
 The common modules are a set of modules that can be reused across many different modules, each one with its specific purpose.
