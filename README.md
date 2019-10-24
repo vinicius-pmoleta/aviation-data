@@ -39,8 +39,6 @@ The `navigation` module is, as the name says, responsible for navigation across 
 
 ### Feature
 
-![architecture-data-flow-diagram](.github/architecture-data-flow-diagram.png)
-
 A feature module was designed to be an Android Library that makes use of the common modules when needed. It groups one or more screens that logically makes sense to be together.
 
 At the moment it doesn't make use of the `Android Dynamic Modules` from which we could leverage dynamic feature deliver and smaller APKs. The reason for that is that I couldn't make it work properly with the unit and instrumented tests in a multi-module architecture. In order to proceed with other study topics I decided to address it in a later moment, but an initial attempt to use them can be found at this [branch](https://github.com/vinicius-pmoleta/aviation-data/tree/improvement/adding-dynamic-modules).
@@ -52,6 +50,8 @@ The option to use the `Kotlin Coroutines` instead of the common approach to use 
 Another decision made was to use `Kodein` instead of the common approach to use `Dagger`. Again one of the reasons to choose Kodein is to explore less verbose options which can provide similar capabilities and also allow an easier injection override on tests to allow screen and integration tests. 
 
 #### Structure
+
+![architecture-data-flow-diagram](.github/architecture-data-flow-diagram.png)
 
 The base idea behind the architecture adopted is that each feature or each screen of a feature would respect the same contract for communication between the `View` and the `ViewModel`. In order to do so it uses this [contract](https://github.com/vinicius-pmoleta/aviation-data/blob/master/common/core/src/main/java/com/aviationdata/common/core/structure/Contract.kt) defined which exposes the `ViewModel`'s state as a `LiveData` and allow it to handle user interactions, while the `View` should be responsible to render the ready to consume state provided and changed on the `ViewModel`.   
 
