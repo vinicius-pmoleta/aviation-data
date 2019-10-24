@@ -1,6 +1,6 @@
 package com.aviationdata.features.search
 
-import com.aviationdata.common.core.structure.Aircraft
+import com.aviationdata.features.search.business.Aircraft
 import com.aviationdata.features.search.data.DEFAULT_SEARCH_RESULTS_PER_PAGE
 import com.aviationdata.features.search.data.DEFAULT_SEARCH_SORT_BY_FIELD
 import com.aviationdata.features.search.data.DEFAULT_SEARCH_SORT_ORDER_FIELD

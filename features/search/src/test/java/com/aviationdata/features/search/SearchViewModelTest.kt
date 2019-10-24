@@ -2,10 +2,10 @@ package com.aviationdata.features.search
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.aviationdata.common.core.structure.Aircraft
 import com.aviationdata.common.core.structure.ViewModelHandler
 import com.aviationdata.common.core.structure.ViewState
 import com.aviationdata.common.core.test.CoroutinesTestRule
+import com.aviationdata.features.search.business.Aircraft
 import com.aviationdata.features.search.business.Pagination
 import com.aviationdata.features.search.business.SearchBusiness
 import com.aviationdata.features.search.business.SearchData

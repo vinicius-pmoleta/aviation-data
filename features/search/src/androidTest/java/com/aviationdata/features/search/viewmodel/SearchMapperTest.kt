@@ -3,10 +3,10 @@ package com.aviationdata.features.search.viewmodel
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import com.aviationdata.common.core.structure.Aircraft
-import com.aviationdata.common.core.structure.Identification
-import com.aviationdata.common.core.structure.Information
-import com.aviationdata.common.core.structure.Operation
+import com.aviationdata.features.search.business.Aircraft
+import com.aviationdata.features.search.business.Identification
+import com.aviationdata.features.search.business.Information
+import com.aviationdata.features.search.business.Operation
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

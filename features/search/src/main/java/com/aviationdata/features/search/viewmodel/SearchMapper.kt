@@ -2,8 +2,8 @@ package com.aviationdata.features.search.viewmodel
 
 import android.content.Context
 import com.aviationdata.common.core.R as coreR
-import com.aviationdata.common.core.structure.Aircraft
 import com.aviationdata.features.search.R
+import com.aviationdata.features.search.business.Aircraft
 import com.aviationdata.features.search.view.SearchResult
 
 class SearchMapper(private val context: Context) {

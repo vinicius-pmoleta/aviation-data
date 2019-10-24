@@ -18,13 +18,22 @@ In order to provide the above-mentioned information the [OpenSky Network](https:
 
 ### Common
 
-#### Core
+The common modules are a set of modules that can be reused across many different modules, each one with its specific purpose.
 
-#### Core Test
+The `core` module contains the main parts needed to create a feature such as:
+- Base DI structure used and extended by feature modules
+- Common extension functions
+- Contracts
+- Common models
+- Common views reusable across the modules
+- Helper functions
+- Base resources such as styles, themes, colors and dimensions
 
-#### Core Android Test
+The `core-test` module is supposed to hold common test code such as helpers and rules to facilitate unit tests in other modules.
 
-#### Navigation
+The `core-androidtest` module is supposed to hold common test code such as helpers, rules and robots to facilitate instrumented tests in other modules.
+
+The `navigation` module is, as the name says, responsible for navigation across feature in the app. This means that each feature module doesn't need to know about other features, it just needs to know and request to the navigation module to go to another feature. The downside of this approach is that the `navigation` module can't know about the futures and therefore when creating the xml files for the navigation graphs the name of the entry point feature fragment doesn't contain auto-complete on Android Studio and it's also not recognized by the IDE, being marked as an error. However, once the APK is assembled the references to the fragments are then known and the navigation works as expected. Considering the benefits of being able to use the `Navigation` AAC and also have a module dedicated only for this purpose, I believe it was worth the downside for the moment.
 
 ### Feature
 
@@ -58,7 +67,7 @@ The `ViewModel`, mappers, and logic presented on the business and data layers ca
 
 This is the main app module, which due to the decision of making the feature modules as Android libraries, will depend on the the feature modules as well as some common modules such as `core` and `navigation`.
 
-As a consequence of using the Navigation AAC, the application module is where the main activity which will contain the feature fragments and `Toolbar` are configured and initialized.
+As a consequence of using the `Navigation` AAC, the application module is where the main activity which will contain the feature fragments and `Toolbar` are configured and initialized.
 
 ## Building and running
 

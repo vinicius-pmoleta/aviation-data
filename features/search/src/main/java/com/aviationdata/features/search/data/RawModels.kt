@@ -1,9 +1,9 @@
 package com.aviationdata.features.search.data
 
-import com.aviationdata.common.core.structure.Aircraft
-import com.aviationdata.common.core.structure.Identification
-import com.aviationdata.common.core.structure.Information
-import com.aviationdata.common.core.structure.Operation
+import com.aviationdata.features.search.business.Aircraft
+import com.aviationdata.features.search.business.Identification
+import com.aviationdata.features.search.business.Information
+import com.aviationdata.features.search.business.Operation
 import com.google.gson.annotations.SerializedName
 
 data class RawSearchResponse(
