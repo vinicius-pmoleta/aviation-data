@@ -6,7 +6,7 @@
 
 Aviation Data is an app to study and apply modern Android development practices, libraries and tendencies.
 
-The app is structured to be multi-module and leverage `Kotlin Coroutines` in a MVVM architecture with states and Android Architecture Components.
+The app is structured to be multi-module and leverage `Kotlin Coroutines` in a MVVM architecture with states and Android Architecture Components (`AACs`).
 
 ## Overview
 
@@ -35,7 +35,9 @@ The `core-test` module is supposed to hold common test code such as helpers and 
 
 The `core-androidtest` module is supposed to hold common test code such as helpers, rules and robots to facilitate instrumented tests in other modules.
 
-The `navigation` module, as the name says, is responsible for navigation across feature in the app by using the `Navigation` AAC. This means that each feature module doesn't need to know about other features, it just needs to request the navigation module to perform an action leaving to the navigation module to decide the destination such as another feature. The downside of this approach is when creating the xml files for the navigation graphs the name of the entry point feature fragment doesn't contain auto-complete on Android Studio and it's also not recognized by the IDE, being marked as an error, since the `navigation` module can't know about the feature modules. However, once the APK is assembled the references to the fragments are then known and the navigation works as expected. Considering the benefits of being able to use the `Navigation` AAC and also have a module dedicated only for this purpose, I believe it was worth the downside for the moment.
+The `navigation` module, as the name says, is responsible for navigation across feature in the app by using the `Navigation AAC`. This means that each feature module doesn't need to know about other features, it just needs to request the navigation module to perform an action leaving to the navigation module to decide the destination such as another feature.
+
+The downside of this approach is when creating the xml files for the navigation graphs the name of the entry point feature fragment doesn't contain auto-complete on Android Studio and it's also not recognized by the IDE, being marked as an error, since the `navigation` module can't know about the feature modules. However, once the APK is assembled the references to the fragments are then known and the navigation works as expected. Considering the benefits of being able to use the `Navigation` AAC and also have a module dedicated only for this purpose, I believe it was worth the downside for the moment.
 
 ### Feature
 
@@ -71,7 +73,7 @@ The `ViewModel`, mappers, and logic presented on the business and data layers ca
 
 This is the main app module, which due to the decision of making the feature modules as Android libraries, will depend on the the feature modules as well as some common modules such as `core` and `navigation`.
 
-As a consequence of using the `Navigation` AAC, the application module is where the main `Activity` which will host the feature fragments and `Toolbar` is configured and initialized.
+As a consequence of using the `Navigation AAC`, the application module is where the main `Activity` which will host the feature fragments and `Toolbar` is configured and initialized.
 
 ## Building and running
 
