@@ -1,42 +1,182 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+
+executors:
+  project-executor:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-28
     environment:
       JVM_OPTS: -Xmx3200m
+
+commands:
+  restore-local-cache:
+    steps:
+      - restore_cache:
+          key: aviationdata-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "buildsystem/common.gradle" }}-{{ checksum "buildsystem/feature.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
+  store-local-cache:
+    steps:
+      - save_cache:
+          key: aviationdata-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum "buildsystem/common.gradle" }}-{{ checksum "buildsystem/feature.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+          paths:
+            - ~/.gradle
+            - ~/.m2
+            - /opt/android-sdk-linux/licenses/
+
+  save-workspace:
+    steps:
+      - persist_to_workspace:
+          root: ~/code
+          paths:
+            - .
+
+  load-workspace:
+    steps:
+      - attach_workspace:
+          at: ~/code
+
+  store-result:
+    parameters:
+      module:
+        type: string
+    steps:
+      - store_test_results:
+          path: <<parameters.module>>/build/test-results
+
+  store-result-all-modules:
+    steps:
+      - store-result:
+          module: app
+      - store-result:
+          module: common/core
+      - store-result:
+          module: common/core-test
+      - store-result:
+          module: common/core-androidtest
+      - store-result:
+          module: common/navigation
+      - store-result:
+          module: features/search
+      - store-result:
+          module: features/gallery
+
+  store-report:
+    parameters:
+      module:
+        type: string
+      report:
+        type: string
+    steps:
+      - store_artifacts:
+          path: <<parameters.module>>/build/reports/<<parameters.report>>
+          destination: reports-<<parameters.module>>
+
+  store-report-all-modules:
+    parameters:
+      report:
+        type: string
+    steps:
+      - store-report:
+          module: app
+          report: <<parameters.report>>
+      - store-report:
+          module: common/core
+          report: <<parameters.report>>
+      - store-report:
+          module: common/core-test
+          report: <<parameters.report>>
+      - store-report:
+          module: common/core-androidtest
+          report: <<parameters.report>>
+      - store-report:
+          module: common/navigation
+          report: <<parameters.report>>
+      - store-report:
+          module: features/search
+          report: <<parameters.report>>
+      - store-report:
+          module: features/gallery
+          report: <<parameters.report>>
+
+jobs:
+  cache-dependencies:
+    executor: project-executor
     steps:
       - checkout
-      - restore_cache:
-          key: aviationdata-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore-local-cache
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies --no-daemon
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: aviationdata-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
-      - run:
-          name: Check code style
-          command: ./gradlew clean ktlintCheck --no-daemon
+      - store-local-cache
+      - save-workspace
+
+  check-detekt:
+    executor: project-executor
+    steps:
+      - load-workspace
+      - restore-local-cache
       - run:
           name: Run Detekt
-          command: ./gradlew clean detekt --no-daemon
+          command: ./gradlew detekt --no-daemon
+      - store-report-all-modules:
+          report: detekt
+
+  check-ktlint:
+    executor: project-executor
+    steps:
+      - load-workspace
+      - restore-local-cache
+      - run:
+          name: Check code style
+          command: ./gradlew ktlintCheck --no-daemon
+      - store-report-all-modules:
+          report: ktlint
+
+  test:
+    executor: project-executor
+    steps:
+      - load-workspace
+      - restore-local-cache
       - run:
           name: Generate all unit test reports
-          command: ./gradlew clean jacocoTestReportDebug --no-daemon
+          command: ./gradlew jacocoTestReportDebug --no-daemon
       - run:
           name: Upload reports to Codecov
           command: bash <(curl -s https://codecov.io/bash -v)
+      - store-report-all-modules:
+          report: jacoco
+      - store-report-all-modules:
+          report: tests
+      - store-result-all-modules
+
+  build:
+    executor: project-executor
+    steps:
+      - load-workspace
+      - restore-local-cache
       - run:
           name: Assemble Debug APK
           command: ./gradlew clean assembleDebug -xlint -PdisablePreDex --no-daemon
       - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_artifacts:
           path: app/build/outputs/apk
           destination: apk
-      - store_test_results:
-          path: app/build/test-results
+
+workflows:
+  version: 2.1
+  verification-build-workflow:
+    jobs:
+      - cache-dependencies
+      - check-detekt:
+          requires:
+            - cache-dependencies
+      - check-ktlint:
+          requires:
+            - cache-dependencies
+      - test:
+          requires:
+            - cache-dependencies
+      - build:
+          requires:
+            - check-detekt
+            - check-ktlint
+            - test
