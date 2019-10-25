@@ -35,13 +35,13 @@ The `core-test` module is supposed to hold common test code such as helpers and 
 
 The `core-androidtest` module is supposed to hold common test code such as helpers, rules and robots to facilitate instrumented tests in other modules.
 
-The `navigation` module is, as the name says, responsible for navigation across feature in the app. This means that each feature module doesn't need to know about other features, it just needs to know and request to the navigation module to go to another feature. The downside of this approach is that the `navigation` module can't know about the futures and therefore when creating the xml files for the navigation graphs the name of the entry point feature fragment doesn't contain auto-complete on Android Studio and it's also not recognized by the IDE, being marked as an error. However, once the APK is assembled the references to the fragments are then known and the navigation works as expected. Considering the benefits of being able to use the `Navigation` AAC and also have a module dedicated only for this purpose, I believe it was worth the downside for the moment.
+The `navigation` module, as the name says, is responsible for navigation across feature in the app by using the `Navigation` AAC. This means that each feature module doesn't need to know about other features, it just needs to request the navigation module to perform an action leaving to the navigation module to decide the destination such as another feature. The downside of this approach is when creating the xml files for the navigation graphs the name of the entry point feature fragment doesn't contain auto-complete on Android Studio and it's also not recognized by the IDE, being marked as an error, since the `navigation` module can't know about the futures. However, once the APK is assembled the references to the fragments are then known and the navigation works as expected. Considering the benefits of being able to use the `Navigation` AAC and also have a module dedicated only for this purpose, I believe it was worth the downside for the moment.
 
 ### Feature
 
 A feature module was designed to be an Android Library that makes use of the common modules when needed. It groups one or more screens that logically makes sense to be together.
 
-At the moment it doesn't make use of the `Android Dynamic Modules` from which we could leverage dynamic feature deliver and smaller APKs. The reason for that is that I couldn't make it work properly with the unit and instrumented tests in a multi-module architecture. In order to proceed with other study topics I decided to address it in a later moment, but an initial attempt to use them can be found at this [branch](https://github.com/vinicius-pmoleta/aviation-data/tree/improvement/adding-dynamic-modules).
+At the moment it doesn't make use of the `Android Dynamic Modules` from which dynamic feature deliver and smaller APKs could be leverage. The reason for that is that I couldn't make it work properly with the unit and instrumented tests in a multi-module architecture. In order to proceed with other study topics I decided to address it in a later moment, but an initial attempt to use them can be found at this [branch](https://github.com/vinicius-pmoleta/aviation-data/tree/improvement/adding-dynamic-modules).
 
 Each feature module relies on the usage of `Kotlin Coroutines`, `Kodein DI` and a MVVM architecture with states and AACs such as `ViewModel` and `LiveData`.
 
@@ -53,25 +53,25 @@ Another decision made was to use `Kodein` instead of the common approach to use 
 
 ![architecture-data-flow-diagram](.github/architecture-data-flow-diagram.png)
 
-The base idea behind the architecture adopted is that each feature or each screen of a feature would respect the same contract for communication between the `View` and the `ViewModel`. In order to do so it uses this [contract](https://github.com/vinicius-pmoleta/aviation-data/blob/master/common/core/src/main/java/com/aviationdata/common/core/structure/Contract.kt) defined which exposes the `ViewModel`'s state as a `LiveData` and allow it to handle user interactions, while the `View` should be responsible to render the ready to consume state provided and changed on the `ViewModel`.   
+The base idea behind the architecture adopted is that each feature or each screen of a feature would respect the same communication contract between the `View` and the `ViewModel`. In order to do so it uses this [contract](https://github.com/vinicius-pmoleta/aviation-data/blob/master/common/core/src/main/java/com/aviationdata/common/core/structure/Contract.kt) defined which exposes the `ViewModel`'s state as a `LiveData` and allows it to handle user interactions, while the `View` should be responsible to render the ready to consume state provided and changed by the `ViewModel`.   
 
 The `ViewModel` is responsible for handling user's interaction and address them accordingly orchestrating threads for background work, calling the appropriate business logic and also mapping the results from that layer into models that will are ready to be consumed by the `View` once exposed through its state. One thing important to notice is that the `ViewModel` also does the error handling by catching the exceptions that other layers might have thrown when performing their operations.
 
-The `business layer` as explained before is responsible for performing the business logic associated with specific use cases of the feature while having the support of the `data layer` where operations such as networking, database access, preferences,e tc are performed. It's worth noticing that on the data layer there's also appropriate mapping to pass back to the business layer only information relevant to it.
+The `business layer` as explained before is responsible for performing the business logic associated with specific use cases of the feature while having the support of the `data layer` where operations such as networking, database access, etc are performed. It's worth noticing that on the data layer there's also appropriate mapping from raw to domain models to return to the business layer only information relevant to it.
 
 #### Tests
 
 Each feature has tests to verify the `View`'s behaviour through an instrumented test with a mocked `ViewModel`. On these tests all the states the view consumes can be properly verified as well as the interactions and its internal data when communication with the mocked `ViewModel`.
 
-By mocking the data layer source it's also possible to write tests that check the whole feature flow up to the data source interaction. In this project we mocked the APIs data sources using the `MockWebServer` library, validating the request and its payload submitted to the search while mocking the response. 
+By mocking the data layer source it's also possible to write tests that check the whole feature flow up to the data source interaction. In this project the APIs data sources were mocked using the `MockWebServer` library, validating the submitted request and its payload and mocking the response. 
 
-The `ViewModel`, mappers, and logic presented on the business and data layers can be unit tests with jUnit and Mockito. 
+The `ViewModel`, mappers, and logic presented on the business and data layers can be unit tested with jUnit and Mockito.
 
 ### Application
 
 This is the main app module, which due to the decision of making the feature modules as Android libraries, will depend on the the feature modules as well as some common modules such as `core` and `navigation`.
 
-As a consequence of using the `Navigation` AAC, the application module is where the main activity which will contain the feature fragments and `Toolbar` are configured and initialized.
+As a consequence of using the `Navigation` AAC, the application module is where the main `Activity` which will host the feature fragments and `Toolbar` is configured and initialized.
 
 ## Building and running
 
@@ -82,13 +82,16 @@ By running the script `./build.sh` it will:
 
 To run the instrumented tests execute: `./gradlew connectedCheck`
 
-## Credits
+## Resources
 
-While studying and building this application many different videos and blog posts were very useful:
-- https://jeroenmols.com/blog/2019/06/12/modularizationtips
-- https://github.com/dotanuki-labs/norris
-- https://medium.com/androiddevelopers/dependency-injection-in-a-multi-module-project-1a09511c14b7
-- https://proandroiddev.com/android-architecture-d7405db1361c
+While studying and building this application many different videos and blog posts were very useful and inspirational:
+- [_**DroidCon Berlin 2019 - Developing Themes with Style**_ by Nick Butcher & Chris Banes](https://droidcon.com/media-detail?video=352671629)
+- [_**Modularization - Lessons learned**_ by Jeroen Mols](https://jeroenmols.com/blog/2019/06/12/modularizationtips)
+- [_**Norris App**_ by Ubiratan Soares](https://github.com/dotanuki-labs/norris)
+- [_**Dependency injection in a multi module project**_ by Ben Weiss](https://medium.com/androiddevelopers/dependency-injection-in-a-multi-module-project-1a09511c14b7)
+- [_**Android Architecture**_ by Philippe Boisney](https://proandroiddev.com/android-architecture-d7405db1361c)
+- [_**Coroutines on Android Series**_ by Sean McQuillan](https://medium.com/androiddevelopers/coroutines-on-android-part-i-getting-the-background-3e0e54d20bb)
+- [_**Deep diving into the Kotlin Coroutines API**_ by Filip Babić](https://www.droidcon.com/media-detail?video=352671093)
 
 ## License
 
