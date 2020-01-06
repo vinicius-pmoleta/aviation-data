@@ -1,7 +1,7 @@
 buildscript {
     project.ext {
-        gradle_plugin_version = '3.5.1'
-        kotlin_version = '1.3.50'
+        gradle_plugin_version = '3.5.3'
+        kotlin_version = '1.3.61'
         detekt_version = '1.0.0-RC16'
         ktlint_version = '9.0.0'
         jacoco_unified_version = '0.15.0'
