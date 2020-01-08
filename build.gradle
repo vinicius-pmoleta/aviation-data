@@ -2,11 +2,12 @@ buildscript {
     project.ext {
         gradle_plugin_version = '3.5.3'
         kotlin_version = '1.3.61'
-        detekt_version = '1.0.0-RC16'
-        ktlint_version = '9.0.0'
+        detekt_version = '1.3.1'
+        ktlint_version = '9.1.1'
         jacoco_unified_version = '0.15.0'
-        jacoco_version = '0.8.4'
+        jacoco_version = '0.8.5'
         navigation_version = '2.1.0'
+        gradle_dependencies_update_version = '0.27.0'
     }
 
     repositories {
@@ -23,6 +24,7 @@ buildscript {
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlint_version"
         classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:$jacoco_unified_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$gradle_dependencies_update_version"
     }
 }
 
@@ -49,6 +51,8 @@ junitJacoco {
     jacocoVersion = "$jacoco_version"
 }
 
+apply plugin: "com.github.ben-manes.versions"
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
@@ -64,7 +68,7 @@ ext {
     androidx_core_version = '1.1.0'
     androidx_recyclerview_version = '1.0.0'
     androidx_constraint_layout_version = '1.1.3'
-    androidx_viewpager_version = '1.0.0-beta05'
+    androidx_viewpager_version = '1.0.0'
     material_version = '1.1.0-beta01'
     fragment_version = '1.1.0'
 
@@ -73,17 +77,17 @@ ext {
     navigation_version = '2.1.0'
 
     // Coroutine
-    coroutines_version = '1.3.0'
+    coroutines_version = '1.3.3'
 
     // Third part
-    retrofit_version = '2.6.1'
-    okhttp_version = '4.2.0'
-    kodein_version = '6.3.3'
-    coil_version = '0.7.0'
+    retrofit_version = '2.7.1'
+    okhttp_version = '4.3.0'
+    kodein_version = '6.5.1'
+    coil_version = '0.9.1'
 
     // Test
-    junit_version = '4.12'
-    mockito_version = '3.0.0'
+    junit_version = '4.13'
+    mockito_version = '3.2.4'
     mockito_kotlin_version = '2.1.0'
     androidx_lifecycle_testing_version = '2.1.0'
 
