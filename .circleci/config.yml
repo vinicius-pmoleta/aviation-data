@@ -132,6 +132,21 @@ jobs:
       - store-report-all-modules:
           report: ktlint
 
+  check-dependencies-update:
+    executor: project-executor
+    steps:
+      - load-workspace
+      - restore-local-cache
+      - run:
+          name: Check dependencies update
+          command: ./gradlew dependencyUpdates --no-daemon
+      - store_artifacts:
+          path: build/dependencyUpdates/report.json
+          destination: report-dependencies-update.json
+      - store_artifacts:
+          path: build/dependencyUpdates/report.txt
+          destination: report-dependencies-update.txt
+
   test:
     executor: project-executor
     steps:
@@ -170,6 +185,9 @@ workflows:
           requires:
             - cache-dependencies
       - check-ktlint:
+          requires:
+            - cache-dependencies
+      - check-dependencies-update:
           requires:
             - cache-dependencies
       - test:
