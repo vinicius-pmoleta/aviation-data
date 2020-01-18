@@ -49,6 +49,36 @@ allprojects {
 apply plugin: "com.vanniktech.android.junit.jacoco"
 junitJacoco {
     jacocoVersion = "$jacoco_version"
+    excludes = [
+            '**/R.class',
+            '**/R2.class',
+            '**/R$*.class',
+            '**/R2$*.class',
+            '**/*$$*',
+            '**/*$ViewInjector*.*',
+            '**/*$ViewBinder*.*',
+            '**/*_ViewBinding*.*',
+            '**/BuildConfig.*',
+            '**/*Activity*.*',
+            '**/*Fragment*.*',
+            '**/*Application.*',
+            '**/*View.*',
+            '**/*Adapter.*',
+            '**/*Holder.*',
+            '**/*ViewModelFactory.*',
+            '**/*Dependencies.*',
+            '**/Manifest*.*',
+            '**/*$Lambda$*.*',
+            '**/*Dagger*.*',
+            '**/*MembersInjector*.*',
+            '**/*_Provide*Factory*.*',
+            '**/*_Factory*.*',
+            '**/*$JsonObjectMapper.*',
+            '**/*$inlined$*.*',
+            '**/*$Icepick.*',
+            '**/*$StateSaver.*',
+            '**/*AutoValue_*.*'
+    ]
 }
 
 apply from: "$rootDir/gradle/dependencies.gradle"
